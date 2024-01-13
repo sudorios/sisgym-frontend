@@ -8,4 +8,4 @@ Sistema para ayudar en la administración eficiente y efectiva de un gimnasio, c
 
 # Uso
 
-Consulta las funciones detalladas en el archivo [funciones.md](./funciones.md).
+Si te encuentras interesado en las funcionalidades del sistemas dale click [aqui](./funciones.md).
