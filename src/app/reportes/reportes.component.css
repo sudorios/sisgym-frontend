@@ -1,0 +1,67 @@
+.container {
+  display: grid;
+  position: relative; /* Agrega posición relativa al contenedor principal */
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: center; /* Alinea los elementos verticalmente en el centro */
+}
+.column2 {
+  display: grid;
+  align-self: center; /* Alinea el contenedor en el centro verticalmente */
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 10px; /* Agrega relleno interno para separar el contenido del borde */
+}
+
+
+
+.export {
+  position: absolute;
+  top: 10px; /* Ajusta según sea necesario */
+  right: 10px; /* Ajusta según sea necesario */
+}
+
+.export::before {
+  content: "\f019"; /* Código de icono de descarga en Font Awesome */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  font-size: 18px;
+  color: #333; /* Cambia el color del icono según sea necesario */
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  padding: 10px;
+  cursor: pointer;
+}
+.column1 {
+  display: grid;
+  grid-template-rows: repeat(2, 1fr); /* Dos filas en la primera columna */
+  gap: 20px; /* Espacio entre filas */
+}
+
+.bar-chart-container,
+.doughnut-chart-container {
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  padding: 14px;
+  background-color: #fff;
+  max-width: 577px;
+  max-height: 289px;
+}
+
+.doughnut-chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container,
+.column1,
+.chart-container {
+  padding: 10px; /* Agrega relleno para separar el contenido de los bordes */
+  background-color: #fff; /* Fondo blanco para los contenedores */
+}
+.modal {
+  display: block;
+  background-color: rgba(0, 0, 0, 0.4);
+}

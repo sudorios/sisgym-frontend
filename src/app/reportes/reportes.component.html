@@ -1,0 +1,59 @@
+<div class="container">
+  <div class="export" (click)="abrirModal()"></div>
+  <div class="column1">
+    <div class="bar-chart-container">
+      <canvas #myChart></canvas>
+    </div>
+    <div class="doughnut-chart-container">
+      <canvas #myChart2></canvas>
+    </div>
+  </div>
+  <div class="column2">
+    <canvas #myLineChart></canvas>
+  </div>
+</div>
+<div *ngIf="mostrarModal" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="titulo" class="modal-title">{{ tituloModal }}</h5>
+      </div>
+      <div class="modal-body">
+        <div class="matricula" *ngIf="mostrarDivExportar">
+          <label id="lblMembresia" for="input1">Seleccione el reporte: </label>
+          <select id="input1" class="form-control" [(ngModel)]="selectReporte">
+            <option value="1">Ingresos mensuales</option>
+            <option value="2">Proporción de membresia</option>
+            <option value="3">Cantidad de asistencias</option>
+          </select>
+          <label id="lblFI" for="input2">Tipo de documento: </label>
+          <select id="input2" class="form-control" [(ngModel)]="selectTipo">
+            <option value="1">Excel</option>
+            <option value="2">PDF</option>
+            <option value="3">Word</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <a
+          class="btn btn-danger btn-sm"
+          role="button"
+          style="cursor: pointer"
+          (click)="cerrarModal()"
+        >
+          <i class="fa fa-close text-white"></i>
+        </a>
+        <a
+          class="btn btn-primary btn-sm"
+          role="button"
+          style="cursor: pointer"
+          id="btnRegistrar"
+          *ngIf="botonEnviar"
+          (click)="exportar()"
+        >
+          <i class="fa-solid fa-arrow-right text-white"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

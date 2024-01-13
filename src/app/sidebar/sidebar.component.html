@@ -1,0 +1,102 @@
+<nav class="sidebar sidebar-offcanvas" id="sidebar">
+  <ul class="nav">
+    <li class="nav-item nav-category">
+      <a
+        class="navbar-brand"
+        style="width: 150px; height: 40px; cursor: pointer"
+        (click)="logo()"
+      >
+        <img
+          src="./smart-fit-logo.png"
+          alt=""
+          style="max-width: 100%; height: auto"
+        />
+      </a>
+    </li>
+    <li class="nav-item nav-category mt-5">Principal</li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        (click)="reportes()"
+        style="cursor: pointer"
+        id="reportes"
+      >
+        <span class="icon-bg"><i class="fa-solid fa-chart-simple"></i></span>
+        <span class="menu-title">Reportes</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="calendario">
+        <span class="icon-bg"><i class="fa-solid fa-calendar-days"></i></span>
+        <span class="menu-title">Clases</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+        class="nav-link"
+        (click)="asistencia()"
+        id="asistencia"
+        style="cursor: pointer"
+      >
+        <span class="icon-bg"><i class="fa-solid fa-clock"></i></span>
+        <span class="menu-title">Asistencia</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="ventas">
+        <span class="icon-bg"><i class="fa-solid fa-cart-shopping"></i></span>
+        <span class="menu-title">Ventas</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" id="Inventario">
+        <span class="icon-bg"><i class="fa-solid fa-box-open"></i></span>
+        <span class="menu-title">Inventario</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a
+      class="nav-link"
+      (click)="toggleClientesOptions()"
+      style="cursor: pointer"
+      data-toggle="collapse"
+      role="button"
+      aria-expanded="false"
+      aria-controls="clientesCollapse"
+    >
+      <span class="icon-bg"><i class="fa-solid fa-user-tie"></i></span>
+      <span class="menu-title">Clientes</span>
+      <span style="margin-left: 60px;">
+        <i *ngIf="!mostrarClientesOptions" class="fa-solid fa-chevron-right"></i>
+        <i *ngIf="mostrarClientesOptions" class="fa-solid fa-chevron-down"></i>
+      </span>
+    </a>
+      <ul class="nav flex-column sub-menu collapse {{ mostrarClientesOptions ? 'show' : '' }}" id="clientesCollapse" style="padding: 0; margin: 0;">
+        <li class="nav-item" style="margin-bottom: 1px;">
+          <a class="nav-link" style="cursor: pointer;" (click)="clientes()">
+            <div style="background-color: #302c3c; padding: 8px; border-radius: 5px; display: flex; align-items: center; width: 100px;">
+              <i class="fa-solid fa-check-circle" style="margin-right: 8px;"></i>
+              <span class="menu-title">Activos</span>
+            </div>
+          </a>
+        </li>
+        <li class="nav-item" style="margin-bottom: 1px;" (click)="exclientes()">
+          <a class="nav-link" style="cursor: pointer;">
+            <div style="background-color: #302c3c; padding: 8px; border-radius: 5px; display: flex; align-items: center; width: 100px;">
+              <i class="fa-solid fa-times-circle" style="margin-right: 8px;"></i>
+              <span class="menu-title">Inactivos</span>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="pages/tables/basic-table.html">
+        <span class="icon-bg"
+          ><i class="fa-solid fa-screwdriver-wrench"></i
+        ></span>
+        <span class="menu-title">Configuración</span>
+      </a>
+    </li>
+  </ul>
+</nav>
