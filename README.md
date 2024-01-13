@@ -1,27 +1,68 @@
-# SisGym
+# MuslitoFIT - SistemaGym - Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.1.
+Version: 1.0.0
 
-## Development server
+[Backend Repository](https://github.com/riosGonzales/sisgym.git)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Sistema para ayudar en la administración eficiente y efectiva de un gimnasio, centro de fitness o instalación deportiva. 
 
-## Code scaffolding
+# Uso
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+El sistema proporciona diversas funcionalidades, incluyendo:
 
-## Build
+### Gestión de Asistencias:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Proporciona un control de asistencia para el acceso de un cliente. En caso de que un cliente no esté matriculado o tenga una membresía caducada, se le impedirá el acceso.
 
-## Running unit tests
+### Informe de Análisis
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Proporciona análisis detallados con gráficos estadísticos sobre:
 
-## Running end-to-end tests
+1. **Ingresos Económicos Mensuales:**
+   Genera informes mensuales que incluyen gráficos estadísticos para visualizar los ingresos económicos del gimnasio. Los formatos exportables incluyen CSV, PDF y Word.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+2. **Cantidad de Asistencias Diarias:**
+   Ofrece un análisis detallado sobre la cantidad de asistencias registradas cada día. Puedes exportar estos datos en formatos como CSV, PDF y Word.
 
-## Further help
+3. **Membresía con Mayor Modalidad:**
+   Realiza un análisis para identificar la membresía con la mayor modalidad de suscripción. Los resultados se presentan con gráficos y pueden ser exportados en formatos como CSV, PDF y Word.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Estos informes te proporcionarán una visión completa y detallada de la salud financiera del gimnasio, la asistencia diaria y las preferencias de membresía.
+
+### Facturación y Pagos
+
+El proceso de matrícula y pago de un cliente genera una factura completamente imprimible. La factura incluirá todos los detalles relevantes, proporcionando una documentación clara y detallada para los clientes y el gimnasio.
+
+### Gestión de Matrículas:
+
+La gestión de matrículas ofrece las siguientes funcionalidades:
+
+1. **Registro de Clientes:**
+   Permite registrar nuevos clientes, proporcionando la información necesaria para su membresía en el gimnasio.
+
+2. **Edición de Clientes:**
+   Ofrece la posibilidad de realizar ediciones en los registros de clientes activos e inactivos, actualizando la información según sea necesario.
+
+3. **Eliminación de Clientes Activos:**
+   Permite eliminar registros de clientes activos en caso de necesidad o cambio de estado.
+
+4. **Renovación de Clientes Inactivos:**
+   En el caso de que un cliente esté inactivo, se brinda la opción de renovar su membresía para reactivar su participación en el gimnasio.
+
+Esta funcionalidad garantiza una gestión eficiente y flexible de las matrículas, adaptándose a las necesidades cambiantes de los clientes y del gimnasio.
+
+### Login y Seguridad
+
+El sistema de autenticación y seguridad ofrece las siguientes características:
+
+1. **Login Validado por JWT:**
+   Utiliza JSON Web Tokens (JWT) para la autenticación de usuarios, proporcionando un método seguro y eficiente para validar las credenciales de acceso.
+
+2. **Sesiones Encriptadas:**
+   Todas las sesiones de usuario se gestionan con encriptación para garantizar la seguridad de la información durante la transmisión y almacenamiento.
+
+3. **Doble Autenticación:**
+   Implementa un sistema de doble autenticación (2FA) para agregar una capa adicional de seguridad. Los usuarios deberán proporcionar un segundo factor (como un código generado en una aplicación de autenticación) además de sus credenciales habituales.
+
+
+
