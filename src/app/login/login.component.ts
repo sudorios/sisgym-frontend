@@ -19,13 +19,16 @@ export class LoginComponent {
   usuarioValido: boolean = true;
   alertaVisible: boolean = false;
   progressValue: number = 0;
+  showPassword: boolean = true;
 
   constructor(private loginService: LoginService, private router: Router, private cookieService: CookieService) {}
 
+  verContrasena(): void {
+    this.showPassword = !this.showPassword;
+  }
+
   autenticar(): void {
     const passwordHash = this.loginService.cifrarSHA256(this.txtPassword);
-    console.log('Usuario:', this.txtUsuario);
-    console.log('Contraseña:', passwordHash);
     this.loginService
       .validarUsuario(this.txtUsuario, passwordHash, '2023-12-12')
       .subscribe(

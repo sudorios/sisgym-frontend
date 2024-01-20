@@ -27,7 +27,29 @@ export class ReportesComponent implements AfterViewInit {
     this.mostrarModal = false;
   }
 
-  exportar(): void {}
+  exportar(): void {
+    if (this.selectReporte === '1' && this.selectTipo === '1') {
+      const timestamp = new Date().getTime();
+      const url = `http://localhost:8080/Sis_Gym/factura/ingresos.xlsx?timestamp=${timestamp}`;
+  
+      this.facturaService.generarExcel().subscribe(
+        () => {
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'ingresos.xml';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+          this.cerrarModal();
+        },
+        (error) => {
+          console.error('Error al generar el Excel', error);
+        }
+      );
+    } else {
+      console.log('No se cumplieron las condiciones para generar el Excel');
+    }
+  }
 
   abrirModal(): void {
     this.mostrarModal = true;
@@ -210,13 +232,15 @@ export class ReportesComponent implements AfterViewInit {
 
   procesarAsistenciasParaGraficoLineal = (): void => {
     const asistenciaData: any[] = this.asistenciaCount
-    .slice(-6)
-    .map((asistencia) => ({
-      date: new Date(asistencia.fecha),
-      count: asistencia.cantidad,
-    }));
-  
-    this.lineChartLabels = asistenciaData.map((item) => this.formatoFecha(item.date));
+      .slice(-6)
+      .map((asistencia) => ({
+        date: new Date(asistencia.fecha),
+        count: asistencia.cantidad,
+      }));
+
+    this.lineChartLabels = asistenciaData.map((item) =>
+      this.formatoFecha(item.date)
+    );
     this.lineChartData = [
       {
         data: asistenciaData.map((item) => item.count),
@@ -226,7 +250,7 @@ export class ReportesComponent implements AfterViewInit {
         borderWidth: 2,
       },
     ];
-  
+
     const ctxLine = this.myLineChart.nativeElement.getContext('2d');
     new Chart(ctxLine, {
       type: 'line',
@@ -262,8 +286,11 @@ export class ReportesComponent implements AfterViewInit {
       },
     });
   };
-  
+
   formatoFecha = (date: Date): string => {
-    return date.toLocaleDateString('en-US', { month: '2-digit', day: '2-digit' });
+    return date.toLocaleDateString('en-US', {
+      month: '2-digit',
+      day: '2-digit',
+    });
   };
 }

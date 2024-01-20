@@ -17,8 +17,15 @@ export class FacturaService {
       })
     );
   }
+
   generarFactura(idFactura: number): Observable<any> {
     const url = `${this.apiUrl}/generarFactura/${idFactura}`;
+    return this.http.get(url);
+
+  }
+
+  generarExcel(): Observable<any> {
+    const url = `${this.apiUrl}/generarIngresos`;
     return this.http.get(url);
   }
 

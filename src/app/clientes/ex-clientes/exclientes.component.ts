@@ -40,7 +40,7 @@ export class ExClientesComponent implements OnInit {
   clientes: any[] = [];
   clientesPaginados: any[] = [];
   length = 0;
-  pageSize = 7;
+  pageSize = 8;
   txtDNI: string = '';
   txtNombre: string = '';
   txtApellido: string = '';
@@ -149,47 +149,10 @@ export class ExClientesComponent implements OnInit {
     this.botonEditar = false;
   }
 
-  registrarCliente(): void {
-    if (
-      this.txtDNI.trim() === '' ||
-      this.txtNombre.trim() === '' ||
-      this.txtApellido.trim() === '' ||
-      this.txtCorreo.trim() === '' ||
-      this.txtTelefono.trim() === ''
-    ) {
-      alert('Todos los campos son obligatorios');
-      return;
-    }
-    const token = this.cookieService.get('token');
-    const nuevoCliente = {
-      dni: this.txtDNI,
-      nombreCliente: this.txtNombre,
-      apellidos: this.txtApellido,
-      emailClie: this.txtCorreo,
-      telefonoCliente: this.txtTelefono,
-    };
-    this.clientesService.crearCliente(nuevoCliente, token).subscribe(
-      (response) => {
-        this.getClientes();
-        this.valorIdCliente = response;
-        this.mostrarDivReg = false;
-        this.tituloModal = 'Matricular Cliente';
-        this.mostrarDivMatri = true;
-        this.botonRegistrar = false;
-        this.botonMatricular = true;
-      },
-      (error) => {
-        console.error('Error al crear el cliente:', error);
-      }
-    );
-  }
-
   cambiarTipoMembresia(): void {
     console.log('Tipo de membresía seleccionada:', this.matriculaSeleccionada);
     this.calcularFechaFin();
   }
-
-
 
   CrearFactura(): void {
     const montoNumerico = parseFloat(this.monto);
@@ -269,43 +232,51 @@ export class ExClientesComponent implements OnInit {
   matricularCliente(): void {
     console.log(this.valorIdCliente);
     const matricula = {
-      fechaInicio: this.fechaInicio,
-      fechaFin: this.fechaFin,
-      idCliente: this.valorIdCliente,
-      idMembresia: this.matriculaSeleccionada,
+        fechaInicio: this.fechaInicio,
+        fechaFin: this.fechaFin,
+        idCliente: this.valorIdCliente,
+        idMembresia: this.matriculaSeleccionada,
     };
     this.matriculaService.crearMatricula(matricula).subscribe(
-      (response) => {
-        console.log('Matrícula creada exitosamente:', response);
-        this.valorIdMembresia = response;
-        this.mostrarDivMatri = false;
-        this.botonMatricular = false;
-        this.botonPagar = true;
-        this.mostrarDivPagar = true;
-        this.tituloModal = 'Pagar';
-        this.fechaInicioG = this.fechaInicio;
-        this.fechaFinG = this.fechaFin;
+        (response) => {
+            console.log('Matrícula creada exitosamente:', response);
+            this.valorIdMembresia = response;
+            this.mostrarDivMatri = false;
+            this.botonMatricular = false;
+            this.botonPagar = true;
+            this.mostrarDivPagar = true;
+            this.tituloModal = 'Pagar';
+            this.fechaInicioG = this.fechaInicio;
+            this.fechaFinG = this.fechaFin;
 
-        switch (String(this.matriculaSeleccionada)) {
-          case '1':
-            this.monto = '150';
-            break;
-          case '2':
-            this.monto = '250';
-            break;
-          case '3':
-            this.monto = '69';
-            break;
-          default:
-            this.monto = '?';
-            break;
+            // Sumar un día a fechaFin
+            const fechaFinMoment = moment(this.fechaFin).add(1, 'days');
+            this.fechaFinG = fechaFinMoment.format('YYYY-MM-DD');
+
+            // Sumar un día a fechaInicio
+            const fechaInicioMoment = moment(this.fechaInicio).add(1, 'days');
+            this.fechaInicioG = fechaInicioMoment.format('YYYY-MM-DD');
+
+            switch (String(this.matriculaSeleccionada)) {
+                case '1':
+                    this.monto = '150';
+                    break;
+                case '2':
+                    this.monto = '250';
+                    break;
+                case '3':
+                    this.monto = '69';
+                    break;
+                default:
+                    this.monto = '?';
+                    break;
+            }
+        },
+        (error) => {
+            console.error('Error al crear la matrícula:', error);
         }
-      },
-      (error) => {
-        console.error('Error al crear la matrícula:', error);
-      }
     );
-  }
+}
 
   renovarCliente(idCliente: number | undefined, token: string): void {
     if (idCliente !== undefined) {

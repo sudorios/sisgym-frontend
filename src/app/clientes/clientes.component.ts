@@ -40,7 +40,7 @@ export class ClientesComponent implements OnInit {
   clientes: any[] = [];
   clientesPaginados: any[] = [];
   length = 0;
-  pageSize = 7;
+  pageSize = 8;
   txtDNI: string = '';
   txtNombre: string = '';
   txtApellido: string = '';
@@ -80,10 +80,8 @@ export class ClientesComponent implements OnInit {
 
   getClientes(): void {
     const token = this.cookieService.get('token');
-    console.log('Valor de la cookie "token":', token);
 
     this.clientesService.getClientes(token).subscribe((data) => {
-      console.log(data);
       this.clientes = data.sort((a, b) => b.idCliente - a.idCliente);
       this.length = this.clientes.length;
       this.clientesPaginados = this.clientes.slice();
@@ -91,10 +89,13 @@ export class ClientesComponent implements OnInit {
   }
 
   onKeyReleased(): void {
-    this.clientesPaginados = this.filtroClientes.transform(this.clientes as any[], this.buscarClie);
+    this.clientesPaginados = this.filtroClientes.transform(
+      this.clientes as any[],
+      this.buscarClie
+    );
     this.length = this.clientesPaginados.length;
     this.page = 1;
-  } 
+  }
 
   page = 1;
 
@@ -157,6 +158,7 @@ export class ClientesComponent implements OnInit {
       alert('Todos los campos son obligatorios');
       return;
     }
+
     const token = this.cookieService.get('token');
     const nuevoCliente = {
       dni: this.txtDNI,
@@ -165,6 +167,7 @@ export class ClientesComponent implements OnInit {
       emailClie: this.txtCorreo,
       telefonoCliente: this.txtTelefono,
     };
+
     this.clientesService.crearCliente(nuevoCliente, token).subscribe(
       (response) => {
         this.getClientes();
@@ -176,7 +179,11 @@ export class ClientesComponent implements OnInit {
         this.botonMatricular = true;
       },
       (error) => {
-        console.error('Error al crear el cliente:', error);
+        if ((error.error.error === 'Cliente ya existente')) {
+        alert("Cliente ya existente");
+        } else {
+          console.log(error);
+        }
       }
     );
   }
@@ -335,7 +342,10 @@ export class ClientesComponent implements OnInit {
           (cliente) => cliente.idCliente !== idCliente
         );
         this.length = this.clientes.length;
-        this.clientesPaginados = this.filtroClientes.transform(this.clientes as any[], this.buscarClie);
+        this.clientesPaginados = this.filtroClientes.transform(
+          this.clientes as any[],
+          this.buscarClie
+        );
         this.length = this.clientesPaginados.length;
         this.page = 1;
         this.cerrarModal();
@@ -406,7 +416,6 @@ export class ClientesComponent implements OnInit {
     this.clientesService.imprimirPDF(token).subscribe(
       (response) => {
         if (response && response.status === 'valido') {
-          console.log('generado pdf');
           timer(5000).subscribe(() => {
             this.abrirReporte();
           });

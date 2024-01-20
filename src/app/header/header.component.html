@@ -3,12 +3,13 @@
         <ul class="navbar-nav navbar-nav-right">                      
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link" id="profileDropdown" data-toggle="dropdown" aria-expanded="false">
-                    <div class="user" (click)="mostrarModal = !mostrarModal" style="cursor: pointer;">
+                    <div class="user" (click)="mostrarModal = !mostrarModal" style="cursor: pointer;" (click)="ajustes()">
                         <i class="fa-solid fa-user"></i>
                     </div>
                 </a>
                 <div [ngStyle]="{'display': mostrarModal ? 'block' : 'none'}" class="dropdown-menu navbar-dropdown dropdown-menu-right p-0 border-0 font-size-sm" aria-labelledby="profileDropdown" data-x-placement="bottom-end">
                     <div class="p-2">
+                        <h6 class="dropdown-header text-uppercase pl-2 text-dark">Usuario: {{ usuario }}</h6>
                         <h5 class="dropdown-header text-uppercase pl-2 text-dark">Opciones de usuario</h5>
                         <a class="dropdown-item py-1 d-flex align-items-center justify-content-between">
                             <span>Ver Perfil</span>

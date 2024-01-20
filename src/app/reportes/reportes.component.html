@@ -22,7 +22,7 @@
         <div class="matricula" *ngIf="mostrarDivExportar">
           <label id="lblMembresia" for="input1">Seleccione el reporte: </label>
           <select id="input1" class="form-control" [(ngModel)]="selectReporte">
-            <option value="1">Ingresos mensuales</option>
+            <option value="1">Ingresos monetarios</option>
             <option value="2">Proporción de membresia</option>
             <option value="3">Cantidad de asistencias</option>
           </select>
@@ -30,7 +30,6 @@
           <select id="input2" class="form-control" [(ngModel)]="selectTipo">
             <option value="1">Excel</option>
             <option value="2">PDF</option>
-            <option value="3">Word</option>
           </select>
         </div>
       </div>

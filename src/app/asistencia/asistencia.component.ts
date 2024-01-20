@@ -14,6 +14,7 @@ import { AsistenciaService } from '../services/asistencia.service';
 export class AsistenciaComponent {
   txtDNI: string = '';
   nombreCliente: string = '';
+  diasRestantes: string = '';
   colorTexto: string = '';
 
   constructor(
@@ -41,18 +42,28 @@ export class AsistenciaComponent {
           } else {
             const nombre = response.nombreCliente;
             const apellidos = response.apellidos;
+            const diasRestantes = response.diasDiferencia;
             this.nombreCliente = nombre + ' ' + apellidos;
+            this.diasRestantes = "Dias restantes: " + diasRestantes;
             this.colorTexto = 'black';
           }
         },
         (error) => {
           if (error.status === 404 && error.error.error === 'Matricula expirada') {
             this.nombreCliente = 'Matricula expirada';
+            this.diasRestantes = '';
             this.colorTexto = 'red';
+          } else if (error.status === 404 && error.error.error === 'Membresia inactiva') {
+            const diasRestantes = error.error.fechaInicio;
+            this.nombreCliente = 'Membresia inactiva';
+            this.colorTexto = 'green';
+            this.diasRestantes = "Dia de inicio: " + diasRestantes;
           } else if (error.status === 404) {
             this.nombreCliente = 'Cliente no encontrado';
             this.colorTexto = 'red';
-          } else {
+            this.diasRestantes = '';
+          }           
+          else {
             console.error('Error del servicio:', error);
           }
         }
