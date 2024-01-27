@@ -1,0 +1,79 @@
+<app-header></app-header>
+<div
+  class="d-flex align-items-center justify-content-center bg-content"
+  style="height: 90.3vh"
+>
+  <div class="card" style="width: 1200px; height: 370px">
+    <div class="card-header bg-custom text-white text-center d-flex justify-content-between align-items-center">
+      <h5 class="card-title mb-1 h3">INFORMACIÓN DEL USUARIO</h5>
+      <div>
+        <span class="icon-bg-orange mr-2"><i class="fa fa-pencil-alt"></i></span>
+    <span class="icon-bg-red mr-2" (click)="volverAHome()"><i class="fa fa-arrow-left"></i></span>
+      </div>
+    </div>
+    <div class="card-body row">
+      <div class="col-md-6">
+        <div class="info">
+          <p class="mb-2 h5">
+            <strong>Nombre de usuario: </strong> {{ codigoUsuario }}
+          </p>
+          <p class="mb-2 h5"><strong>Rol: </strong>{{ tipoUsuario }}</p>
+          <p class="mb-2 h5">
+            <strong>Fecha registro: </strong>{{ fechaRegistro }}
+          </p>
+          <p class="mb-2 h5">
+            <strong>Estado: </strong>
+            <span *ngIf="estadoUsuario === 'ACTIVO'">🟢</span>
+            <span *ngIf="estadoUsuario !== 'ACTIVO'">🔴</span>
+            {{ estadoUsuario }}
+          </p>
+          <p class="mb-2 h5"><strong>Empleado: </strong>{{ nombreCompleto }}</p>
+          <div class="mb-2 h5 d-flex align-items-center">
+            <strong class="mr-2">Token: </strong>
+            <div class="w-70 pr-2">
+              <input
+                type="password"
+                value="contrasena"
+                class="form-control"
+                readonly
+              />
+            </div>
+            <div class="w-30">
+              <a class="btn btn-info btn-block" (click)="mostrar2FA = true">
+                <i class="fa fa-eye" style="color: white"></i>
+              </a>
+            </div>
+          </div>
+          <div class="mb-2 h5 d-flex align-items-center" *ngIf="mostrar2FA">
+            <strong class="mr-2">Código (2FA):</strong>
+            <div class="d-flex col-8">
+              <input
+                type="text"
+                class="form-control w-75 mr-2"
+                maxlength="6"
+                [(ngModel)]="codigo"
+                [ngClass]="{
+                  'is-invalid':
+                    (enviar && (!codigo || codigo.trim() === '')) ||
+                    (enviar && respuestaNoValida)
+                }"
+              />
+              <a class="btn btn-success ml-2" (click)="verificarCodigo()">
+                <i class="fa-solid fa-check text-white"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div
+          class="userPicture text-center"
+          style="background-color: #e0e0e0; padding: 80px"
+        >
+          <i class="fa fa-user fa-5x"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-footer></app-footer>

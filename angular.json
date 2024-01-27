@@ -24,8 +24,7 @@
               "src/favicon.ico",
               "src/assets",
               "src/mqdefault.jpg",
-              "src/smart-fit-logo.png"
-            ],
+              "src/smart-fit-logo.png"            ],
             "styles": [
               "src/styles.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"

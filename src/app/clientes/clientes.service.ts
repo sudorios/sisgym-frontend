@@ -16,7 +16,6 @@ export class ClientesService {
 
   getClientes(token: string): Observable<any[]> {
     const headers = new HttpHeaders().set('token', token);
-    console.log('Headers:', headers);
     return this.http.get<any[]>(this.apiUrl, { headers });
   }
   getClientes2(token: string): Observable<any[]> {

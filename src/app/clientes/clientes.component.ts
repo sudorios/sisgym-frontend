@@ -20,6 +20,7 @@ import { FiltroPipe } from './filtro.pipe';
 })
 export class ClientesComponent implements OnInit {
   filtroClientes = new FiltroPipe();
+  token: string = '';
 
   //(Modales, botones y div)
   mostrarModal: boolean = false;
@@ -35,6 +36,8 @@ export class ClientesComponent implements OnInit {
   botonEliminar: boolean = false;
   botonEditar: boolean = false;
   buscarClie: string = '';
+  enviar: boolean = false;
+  loading: boolean = false;
 
   //Clientes
   clientes: any[] = [];
@@ -71,7 +74,83 @@ export class ClientesComponent implements OnInit {
     private matriculaService: MatriculaService,
     private pagoService: PagoService,
     private facturaService: FacturaService
-  ) {}
+  ) {
+    this.token = this.cookieService.get('token');
+  }
+
+  //Modal Metodos
+
+  abrirModal() {
+    this.tituloModal = 'Registrar Cliente';
+    this.mostrarModal = this.mostrarDivReg = true;
+    this.mostrarEliminar = false;
+    this.botonRegistrar = true;
+    this.botonEliminar = false;
+  }
+
+  limpiarInputs(): void {
+    this.txtDNI =
+      this.txtNombre =
+      this.txtApellido =
+      this.txtCorreo =
+      this.txtTelefono =
+        '';
+    this.matriculaSeleccionada = 1;
+    this.fechaInicio = this.fechaFin = 'Selecciona fecha';
+    this.metodoPago = '1';
+    this.monto = '';
+  }
+
+  cargarDatosCliente(cliente: any): void {
+    this.txtDNI = cliente.dni || '';
+    this.txtNombre = cliente.nombreCliente || '';
+    this.txtApellido = cliente.apellidos || '';
+    this.txtCorreo = cliente.emailClie || '';
+    this.txtTelefono = cliente.telefonoCliente || '';
+  }
+
+  actualizarCamposAutomaticamente(): void {
+    const dni = this.txtDNI;
+    if (dni.length === 8) {
+      this.clientesService.getClienteByDNI(dni).subscribe((data) => {
+        this.txtNombre = data.nombres || 'Nombre no encontrado';
+        this.txtApellido =
+          `${data.apellidoPaterno} ${data.apellidoMaterno}` ||
+          'Apellido no encontrado';
+      });
+    } else {
+      this.txtNombre = '';
+      this.txtApellido = '';
+    }
+  }
+
+  cerrarModal() {
+    this.mostrarModal = false;
+    this.limpiarInputs();
+    this.botonPagar =
+      this.botonMatricular =
+      this.mostrarDivMatri =
+      this.mostrarDivPagar =
+      this.botonEditar =
+        false;
+  }
+
+  cambiarTipoMembresia(): void {
+    this.calcularFechaFin();
+  }
+
+  calcularFechaFin(): void {
+    const idMembresia = this.matriculaSeleccionada.toString();
+    const momentFechaInicio = moment(this.fechaInicio);
+
+    const diasAñadir =
+      idMembresia === '1' ? 90 : idMembresia === '2' ? 150 : 30;
+    momentFechaInicio.add(diasAñadir, 'days');
+
+    this.fechaFin = momentFechaInicio.format('YYYY-MM-DD');
+  }
+
+  //Listar-Paginacion-Filtro
 
   ngOnInit(): void {
     this.getClientes();
@@ -79,13 +158,20 @@ export class ClientesComponent implements OnInit {
   }
 
   getClientes(): void {
-    const token = this.cookieService.get('token');
-
-    this.clientesService.getClientes(token).subscribe((data) => {
-      this.clientes = data.sort((a, b) => b.idCliente - a.idCliente);
-      this.length = this.clientes.length;
-      this.clientesPaginados = this.clientes.slice();
-    });
+    this.loading = true; 
+    this.clientesService.getClientes(this.token).subscribe(
+      (data) => {
+        this.clientes = data.sort((a, b) => b.idCliente - a.idCliente);
+        this.length = this.clientes.length;
+        this.clientesPaginados = this.clientes.slice();
+      },
+      (error) => {
+        console.error('Error al obtener clientes:', error);
+      },
+      () => {
+        this.loading = false;
+      }
+    );
   }
 
   onKeyReleased(): void {
@@ -111,55 +197,25 @@ export class ClientesComponent implements OnInit {
     }
   }
 
-  actualizarCamposAutomaticamente(): void {
-    const dni = this.txtDNI;
-    if (dni.length === 8) {
-      console.log('DNI llegó a 8');
-      this.clientesService.getClienteByDNI(dni).subscribe((data) => {
-        this.txtNombre = data.nombres || 'Nombre no encontrado';
-        this.txtApellido =
-          `${data.apellidoPaterno} ${data.apellidoMaterno}` ||
-          'Apellido no encontrado';
-      });
-    } else {
-      this.txtNombre = '';
-      this.txtApellido = '';
-    }
-  }
+  //Registros
 
-  abrirModal() {
-    this.tituloModal = 'Registrar Cliente';
-    this.mostrarModal = true;
-    this.mostrarDivReg = true;
-    this.mostrarEliminar = false;
-    this.botonRegistrar = true;
-    this.botonEliminar = false;
-  }
-
-  cerrarModal() {
-    this.mostrarModal = false;
-    this.limpiarInputs();
-
-    this.botonPagar = false;
-    this.botonMatricular = false;
-    this.mostrarDivMatri = false;
-    this.mostrarDivPagar = false;
-    this.botonEditar = false;
-  }
-
-  registrarCliente(): void {
+  camposObligatorios(): boolean {
     if (
       this.txtDNI.trim() === '' ||
       this.txtNombre.trim() === '' ||
       this.txtApellido.trim() === '' ||
-      this.txtCorreo.trim() === '' ||
-      this.txtTelefono.trim() === ''
+      this.txtCorreo.trim() === '' 
     ) {
-      alert('Todos los campos son obligatorios');
-      return;
+      this.enviar = true;
+      return false;
     }
+    return true;
+  }
 
-    const token = this.cookieService.get('token');
+  registrarCliente(): void {
+     if (!this.camposObligatorios()) {
+      return; 
+    } 
     const nuevoCliente = {
       dni: this.txtDNI,
       nombreCliente: this.txtNombre,
@@ -168,7 +224,7 @@ export class ClientesComponent implements OnInit {
       telefonoCliente: this.txtTelefono,
     };
 
-    this.clientesService.crearCliente(nuevoCliente, token).subscribe(
+    this.clientesService.crearCliente(nuevoCliente, this.token).subscribe(
       (response) => {
         this.getClientes();
         this.valorIdCliente = response;
@@ -179,8 +235,8 @@ export class ClientesComponent implements OnInit {
         this.botonMatricular = true;
       },
       (error) => {
-        if ((error.error.error === 'Cliente ya existente')) {
-        alert("Cliente ya existente");
+        if (error.error.error === 'Cliente ya existente') {
+          alert('Cliente ya existente');
         } else {
           console.log(error);
         }
@@ -229,11 +285,6 @@ export class ClientesComponent implements OnInit {
     );
   }
 
-  cambiarTipoMembresia(): void {
-    console.log('Tipo de membresía seleccionada:', this.matriculaSeleccionada);
-    this.calcularFechaFin();
-  }
-
   pagoCliente(): void {
     const fechaactual = moment().format('YYYY-MM-DD');
 
@@ -256,6 +307,8 @@ export class ClientesComponent implements OnInit {
       }
     );
   }
+
+  //Factura y reportes
 
   CrearFactura(): void {
     const montoNumerico = parseFloat(this.monto);
@@ -305,20 +358,26 @@ export class ClientesComponent implements OnInit {
     );
   }
 
-  calcularFechaFin(): void {
-    const idMembresia = this.matriculaSeleccionada.toString();
-    const momentFechaInicio = moment(this.fechaInicio);
-
-    if (idMembresia === '1') {
-      momentFechaInicio.add(90, 'days');
-    } else if (idMembresia === '2') {
-      momentFechaInicio.add(150, 'days');
-    } else if (idMembresia === '3') {
-      momentFechaInicio.add(30, 'days');
-    }
-
-    this.fechaFin = momentFechaInicio.format('YYYY-MM-DD');
+  reportePDF(token: string): void {
+    this.clientesService.imprimirPDF(token).subscribe(
+      (response) => {
+        if (response && response.status === 'valido') {
+          timer(5000).subscribe(() => {
+            this.abrirReporte();
+          });
+        }
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
+
+  generarReport() {
+    this.reportePDF(this.token);
+  }
+
+  //Eliminar
 
   eliminarClienteModal(idCliente: number): void {
     this.abrirModal();
@@ -333,9 +392,9 @@ export class ClientesComponent implements OnInit {
     );
     this.botonRegistrar = false;
   }
+
   eliminarCliente(idCliente: number): void {
-    const token = this.cookieService.get('token');
-    this.clientesService.eliminarCliente(idCliente, token).subscribe(
+    this.clientesService.eliminarCliente(idCliente, this.token).subscribe(
       (response) => {
         console.log('Cliente eliminado exitosamente:', response);
         this.clientes = this.clientes.filter(
@@ -356,6 +415,8 @@ export class ClientesComponent implements OnInit {
     );
   }
 
+  //Editar
+
   editarCliente(idCliente: number): void {
     this.abrirModal();
     this.clienteAEditar = this.clientes.find(
@@ -369,7 +430,6 @@ export class ClientesComponent implements OnInit {
     this.botonEditar = true;
   }
   actualizarCliente(): void {
-    const token = this.cookieService.get('token');
     const nuevoCliente = {
       dni: this.txtDNI,
       nombreCliente: this.txtNombre,
@@ -380,55 +440,16 @@ export class ClientesComponent implements OnInit {
     };
     const codigo = this.valorIdCliente ?? 0;
     console.log(codigo);
-    this.clientesService.editarCliente(codigo, nuevoCliente, token).subscribe(
-      (response) => {
-        this.getClientes();
-        this.cerrarModal();
-      },
-      (error) => {
-        console.error('Error al editar el cliente:', error);
-      }
-    );
-  }
-
-  limpiarInputs(): void {
-    this.txtDNI = '';
-    this.txtNombre = '';
-    this.txtApellido = '';
-    this.txtCorreo = '';
-    this.txtTelefono = '';
-    this.matriculaSeleccionada = 1;
-    this.fechaInicio = 'Selecciona fecha';
-    this.fechaFin = 'Selecciona fecha';
-    this.metodoPago = '1';
-    this.monto = '';
-  }
-
-  cargarDatosCliente(cliente: any): void {
-    this.txtDNI = cliente.dni || '';
-    this.txtNombre = cliente.nombreCliente || '';
-    this.txtApellido = cliente.apellidos || '';
-    this.txtCorreo = cliente.emailClie || '';
-    this.txtTelefono = cliente.telefonoCliente || '';
-  }
-
-  reportePDF(token: string): void {
-    this.clientesService.imprimirPDF(token).subscribe(
-      (response) => {
-        if (response && response.status === 'valido') {
-          timer(5000).subscribe(() => {
-            this.abrirReporte();
-          });
+    this.clientesService
+      .editarCliente(codigo, nuevoCliente, this.token)
+      .subscribe(
+        (response) => {
+          this.getClientes();
+          this.cerrarModal();
+        },
+        (error) => {
+          console.error('Error al editar el cliente:', error);
         }
-      },
-      (error) => {
-        console.error(error);
-      }
-    );
-  }
-
-  generarReport() {
-    const token = this.cookieService.get('token');
-    this.reportePDF(token);
+      );
   }
 }

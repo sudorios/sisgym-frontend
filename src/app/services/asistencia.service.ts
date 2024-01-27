@@ -17,4 +17,13 @@ export class AsistenciaService {
   contarAsistencias(): Observable<any[]> {
     return this.http.get<any[]>(`${this.apiUrl}/contar-asis`);
   }
+
+  generarExcel(): Observable<any[]> {
+    return this.http.get<any[]>(`${this.apiUrl}/generarExcel`);    
+  }
+
+  generarPDF(): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/generarPDF`, { responseType: 'blob' });    
+  }
+  
 }

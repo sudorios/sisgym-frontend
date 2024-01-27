@@ -29,26 +29,127 @@ export class ReportesComponent implements AfterViewInit {
 
   exportar(): void {
     if (this.selectReporte === '1' && this.selectTipo === '1') {
-      const timestamp = new Date().getTime();
-      const url = `http://localhost:8080/Sis_Gym/factura/ingresos.xlsx?timestamp=${timestamp}`;
-  
-      this.facturaService.generarExcel().subscribe(
-        () => {
-          const link = document.createElement('a');
-          link.href = url;
-          link.download = 'ingresos.xml';
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          this.cerrarModal();
-        },
-        (error) => {
-          console.error('Error al generar el Excel', error);
-        }
-      );
-    } else {
-      console.log('No se cumplieron las condiciones para generar el Excel');
+      this.generarExcelIngresos();
+    } else if (this.selectReporte === '1' && this.selectTipo === '2') {
+      this.generarPDFIngresos();
+    } else if (this.selectReporte === '2' && this.selectTipo === '1') {
+      this.excelMembresias();
+    } else if (this.selectReporte === '2' && this.selectTipo === '2') {
+      this.PDFMembresias();
+    } else if (this.selectReporte === '3' && this.selectTipo === '1') {
+      this.excelAsistencia();
+    } else if (this.selectReporte === '3' && this.selectTipo === '2') {
+      this.PDFAsistencia();
     }
+  }
+
+  private generarExcelIngresos(): void {
+    const timestamp = new Date().getTime();
+    const url = `http://localhost:8080/Sis_Gym/factura/ingresos.xlsx?timestamp=${timestamp}`;
+
+    this.facturaService.generarExcel().subscribe(
+      () => {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'ingresos.xml';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        this.cerrarModal();
+      },
+      (error) => {
+        console.error('Error al generar el Excel', error);
+      }
+    );
+  }
+  private excelAsistencia(): void {
+    const timestamp = new Date().getTime();
+    const url = `http://localhost:8080/Sis_Gym/factura/asistencia.xlsx?timestamp=${timestamp}`;
+
+    this.asistenciaService.generarExcel().subscribe(
+      () => {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'asistencia.xml';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        this.cerrarModal();
+      },
+      (error) => {
+        console.error('Error al generar el Excel', error);
+      }
+    );
+  }
+
+  private excelMembresias(): void {
+    const timestamp = new Date().getTime();
+    const url = `http://localhost:8080/Sis_Gym/factura/membresias.xlsx?timestamp=${timestamp}`;
+    this.matriculaService.generarExcel().subscribe(
+      () => {
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'membresias.xml';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        this.cerrarModal();
+      },
+      (error) => {
+        console.error('Error al generar el Excel', error);
+      }
+    );
+  }
+
+  private generarPDFIngresos(): void {
+    const timestamp = new Date().getTime();
+    const randomValue = Math.random();
+    const url = `http://localhost:8080/Sis_Gym/factura/ingresos.pdf?timestamp=${timestamp}&random=${randomValue}`;
+    this.facturaService.generarPDF().subscribe(
+      (pdfContent: Blob) => {
+        const fileSize = pdfContent ? pdfContent.size : 0;
+        const uniqueUrl = `${url}&size=${fileSize}`;
+
+        window.open(uniqueUrl);
+        this.cerrarModal();
+      },
+      (error) => {
+        console.error('Error al generar el PDF', error);
+      }
+    );
+  }
+  private PDFMembresias(): void {
+    const timestamp = new Date().getTime();
+    const randomValue = Math.random();
+    const url = `http://localhost:8080/Sis_Gym/factura/membresias.pdf?timestamp=${timestamp}&random=${randomValue}`;
+    this.matriculaService.generarPDF().subscribe(
+      (pdfContent: Blob) => {
+        const fileSize = pdfContent ? pdfContent.size : 0;
+        const uniqueUrl = `${url}&size=${fileSize}`;
+        window.open(uniqueUrl);
+        this.cerrarModal();
+      },
+      (error) => {
+        console.error('Error al generar el PDF', error);
+      }
+    );
+  }
+
+  private PDFAsistencia(): void {
+    const timestamp = new Date().getTime();
+    const randomValue = Math.random();
+    const url = `http://localhost:8080/Sis_Gym/factura/asistencia.pdf?timestamp=${timestamp}&random=${randomValue}`;
+    this.asistenciaService.generarPDF().subscribe(
+      (pdfContent: Blob) => {
+        const fileSize = pdfContent ? pdfContent.size : 0;
+        const uniqueUrl = `${url}&size=${fileSize}`;
+        window.open(uniqueUrl);
+        this.cerrarModal();
+      },
+      (error) => {
+        console.error('Error al generar el PDF', error);
+      }
+    );
   }
 
   abrirModal(): void {

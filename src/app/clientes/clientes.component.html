@@ -48,33 +48,47 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let cliente of clientesPaginados | paginate: { itemsPerPage: pageSize, currentPage: page, totalItems: length }">
-      <td>{{ cliente.idCliente }}</td>
-      <td>{{ cliente.nombreCliente }}</td>
-      <td>{{ cliente.apellidos }}</td>
-      <td>{{ cliente.dni }}</td>
-      <td>{{ cliente.emailClie }}</td>
-      <td>{{ cliente.telefonoCliente }}</td>
-      <td>
-        <a
-          class="btn btn-info btn-sm"
-          role="button"
-          style="margin-right: 5px; cursor: pointer"
-          (click)="editarCliente(cliente.idCliente)"
-        >
-          <i class="far fa-edit text-white"></i>
-        </a>
-        <a
-          class="btn btn-danger btn-sm"
-          role="button"
-          style="margin-right: 5px; cursor: pointer"
-          (click)="eliminarClienteModal(cliente.idCliente)"
-        >
-          <i class="fa fa-trash text-white"></i>
-        </a>
-      </td>
-    </tr>
-  </tbody>
+    <ng-container *ngIf="loading; else content">
+      <tr>
+        <td colspan="7" class="text-center">Cargando...</td>
+      </tr>
+    </ng-container>
+    <ng-template #content>
+      <ng-container *ngIf="clientesPaginados.length === 0; else clientesFound">
+        <tr>
+          <td colspan="7" class="text-center">CLIENTE NO ENCONTRADO</td>
+        </tr>
+      </ng-container>
+      <ng-template #clientesFound>
+        <tr *ngFor="let cliente of clientesPaginados | paginate: { itemsPerPage: pageSize, currentPage: page, totalItems: length }">
+        <td>{{ cliente.idCliente }}</td>
+        <td>{{ cliente.nombreCliente }}</td>
+        <td>{{ cliente.apellidos }}</td>
+        <td>{{ cliente.dni }}</td>
+        <td>{{ cliente.emailClie }}</td>
+        <td>{{ cliente.telefonoCliente }}</td>
+        <td>
+          <a
+            class="btn btn-info btn-sm"
+            role="button"
+            style="margin-right: 5px; cursor: pointer"
+            (click)="editarCliente(cliente.idCliente)"
+          >
+            <i class="far fa-edit text-white"></i>
+          </a>
+          <a
+            class="btn btn-danger btn-sm"
+            role="button"
+            style="margin-right: 5px; cursor: pointer"
+            (click)="eliminarClienteModal(cliente.idCliente)"
+          >
+            <i class="fa fa-trash text-white"></i>
+          </a>
+        </td>
+      </tr>
+    </ng-template>
+  </ng-template>
+</tbody>
 </table>
 <div class="text-center">
   <pagination-controls (pageChange)="page = $event"></pagination-controls>
@@ -94,7 +108,11 @@
             placeholder="DNI"
             class="form-control"
             maxlength="8"
-          />
+            [ngClass]="{ 'is-invalid': enviar && (!txtDNI || txtDNI.trim() === '') }"
+            />
+            <div *ngIf="enviar && (!txtDNI || txtDNI.trim() === '')" class="invalid-feedback">
+              DNI es un campo obligatorio.
+          </div>
           <label id="lblNombres" for="nombres">Nombres:</label>
           <input
             type="text"
@@ -102,14 +120,22 @@
             placeholder="Nombres"
             [(ngModel)]="txtNombre"
             class="form-control"
+            [ngClass]="{ 'is-invalid': enviar && (!txtNombre || txtNombre.trim() === '') }"
           />
+          <div *ngIf="enviar && (!txtNombre || txtNombre.trim() === '')" class="invalid-feedback">
+            Nombre es un campo obligatorio.
+          </div>
           <label id="lblApellidos" for="apellidos">Apellidos:</label>
           <input
             id="apellidos"
             placeholder="Apellidos"
             [(ngModel)]="txtApellido"
             class="form-control"
-          />
+            [ngClass]="{ 'is-invalid': enviar && (!txtApellido || txtApellido.trim() === '') }"
+            />
+            <div *ngIf="enviar && (!txtApellido || txtApellido.trim() === '')" class="invalid-feedback">
+              Apellido es un campo obligatorio.
+            </div>
           <label id="lblCorreo" for="correo">Correo:</label>
           <input
             type="email"
@@ -117,7 +143,11 @@
             id="correo"
             class="form-control"
             [(ngModel)]="txtCorreo"
+            [ngClass]="{ 'is-invalid': enviar && (!txtCorreo || txtCorreo.trim() === '') }"
           />
+          <div *ngIf="enviar && (!txtCorreo || txtCorreo.trim() === '')" class="invalid-feedback">
+            Correo es un campo obligatorio.
+          </div>
           <label id="lblTelefono" for="telefono">Telefono:</label>
           <input
             type="text"

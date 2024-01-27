@@ -3,7 +3,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
   selector: 'app-sidebar',
   standalone: true,
@@ -23,7 +22,7 @@ export class SidebarComponent {
   clientes(): void {
     this.router.navigate(['/home/clientes']);
   }
-exclientes(): void {
+  exclientes(): void {
     this.router.navigate(['/home/exclientes']);
   }
 
@@ -33,6 +32,10 @@ exclientes(): void {
 
   reportes(): void {
     this.router.navigate(['/home/reportes']);
+  }
+
+  calendario(): void {
+    this.router.navigate(['/home/calendario']);
   }
 
   toggleClientesOptions(): void {

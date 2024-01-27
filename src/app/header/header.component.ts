@@ -25,4 +25,9 @@ export class HeaderComponent {
   cerrarSesion() {
     this.router.navigate(['/login']);
   }
+
+  verPerfil() {
+    this.router.navigate(['/perfil']);
+  }
+
 }

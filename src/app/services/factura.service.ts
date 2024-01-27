@@ -29,6 +29,11 @@ export class FacturaService {
     return this.http.get(url);
   }
 
+  generarPDF(): Observable<any> {
+    const url = `${this.apiUrl}/generarIngresosPDF`;
+    return this.http.get(url);
+  }
+
   getIngresos(): Observable<any[]> {
     const url = `${this.apiUrl}/ingresos`;
     return this.http.get<any[]>(url)

@@ -30,4 +30,24 @@ export class MatriculaService {
         })
       );
   }
+
+  generarExcel(): Observable<any> {
+    const url = `${this.apiUrl}/generarExcel`;
+    return this.http.get<any>(url)
+      .pipe(
+        catchError(error => {
+          return throwError(error);
+        })
+      );
+  }
+
+  generarPDF(): Observable<any> {
+    const url = `${this.apiUrl}/generarPDF`;
+    return this.http.get<any>(url)
+      .pipe(
+        catchError(error => {
+          return throwError(error);
+        })
+      );
+  }
 }

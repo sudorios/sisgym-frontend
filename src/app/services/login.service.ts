@@ -22,4 +22,9 @@ export class LoginService {
     const headers = new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' });
     return this.http.post<any>(`${this.apiUrl}/validarUsuario`, body, { headers });
   }  
+
+  buscarUsuario(codiUsua: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/buscarUsuario/${codiUsua}`);
+  }
+  
 }

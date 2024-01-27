@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-import { AutenticarService } from './autenticar.service';
+import { AutenticarService } from '../services/autenticar.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -66,7 +66,6 @@ export class AutenticarComponent implements OnInit {
   verificarCodigo(event: Event): void {
     event.preventDefault();
     const codigo = this.txtCodigo;
-    console.log('Código:', codigo);
     this.autenticarService
       .validarToken(this.usuario, this.password, codigo)
       .subscribe(

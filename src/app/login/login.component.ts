@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { LoginService } from './login.service';
+import { LoginService } from '../services/login.service';
 import { CookieService } from 'ngx-cookie-service';
 
 @Component({
@@ -32,11 +32,11 @@ export class LoginComponent {
     this.loginService
       .validarUsuario(this.txtUsuario, passwordHash, '2023-12-12')
       .subscribe(
-        (response: any) => {  // Asegúrate de ajustar el tipo según la estructura de tu respuesta
-          //console.log('Respuesta del servidor:', response);         
+        (response: any) => {  
           if(response && response.resultado === 'valido') {
             console.log('Token generado:', response.token);
             this.cookieService.set('token', response.token);
+            this.cookieService.set('id', response.codiUsua);
             this.cookieService.set('usuario', this.txtUsuario);
             this.cookieService.set('contrasena', passwordHash);
             this.router.navigate(['/home']);

@@ -1,0 +1,55 @@
+<div class="wrapper">
+  <header>
+    <p class="current-date">{{ fechaActual }}</p>
+    <div class="icons">
+      <span
+        id="prev"
+        class="material-symbols-rounded"
+        (click)="handlePrevClick()"
+      >
+        <i class="fas fa-chevron-left"></i>
+      </span>
+      <span
+        id="next"
+        class="material-symbols-rounded"
+        (click)="handleNextClick()"
+      >
+        <i class="fas fa-chevron-right"></i>
+      </span>
+    </div>
+  </header>
+  <div class="calendar">
+    <ul class="weeks">
+      <li>Dom</li>
+      <li>Lun</li>
+      <li>Mar</li>
+      <li>Mie</li>
+      <li>Jue</li>
+      <li>Vie</li>
+      <li>Sab</li>
+    </ul>
+    <ul class="days">
+      <li
+      (click)="abrirModal(day)"
+      *ngFor="let day of daysOfMonth"
+        [class]="day.status"
+      >
+        {{ day.day }}
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="modal" *ngIf="mostrarModal">
+  <div class="modal-content">
+    <p>Acciones:</p>
+    <span class="close" id="closeModal">&times;</span>
+    <button class="btn btn-primary" type="button" id="btnVerHorarios" (click)="verHorario()">
+      VER HORARIOS
+    </button>
+    <button class="btn btn-secondary mt-2" (click)="cerrarModal()" type="button" data-dismiss="modal">
+      CANCELAR
+    </button>
+  </div>
+</div>
+

@@ -1,0 +1,28 @@
+.custom-card {
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.bg-custom {
+    background-color: #063970;
+}
+  
+.bg-content {
+    background-color: #f6f1f1; 
+}
+  
+
+.icon-bg-orange {
+    background-color: #f48c06;
+    padding: 7px; 
+    border-radius: 8px; 
+    align-items: center;
+  }
+  
+  .icon-bg-red {
+    background-color: #ba181b;
+    padding: 7px; 
+    border-radius: 8px; 
+    align-items: center;
+    cursor: pointer;
+  }

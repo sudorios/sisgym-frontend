@@ -1,0 +1,181 @@
+<div>
+  <h3 class="card-title">
+    <span class="text-dark">
+      <i class="nav-icon fas fa-list"></i>
+    </span>
+    Lista de clases programadas
+  </h3>
+</div>
+<hr />
+<div class="row">
+  <div class="col-8">
+    <a
+      class="btn btn-success btn-sm"
+      role="button"
+      style="cursor: pointer; margin-right: 5px"
+      (click)="abrirModal()"
+    >
+      <i class="fa fa-plus text-white"> </i>
+    </a>
+    <a
+      class="btn btn-secondary btn-sm"
+      role="button"
+      style="cursor: pointer; margin-right: 5px"
+      (click)="generarReport()"
+    >
+      <i class="fa-solid fa-file-pdf text-white"></i>
+    </a>
+  </div>
+  <div class="col-4">
+<input
+  placeholder="Buscar"
+  class="form-control"
+  [(ngModel)]="buscarClase"
+  (input)="onKeyReleased()"
+/>
+  </div>
+</div>
+<hr />
+<table
+  id="miTabla"
+  class="table table-striped table-bordered table-responsive-md"
+  style="width: 100%"
+>
+  <thead>
+    <tr>
+      <th class="text-center">Codigo</th>
+      <th class="text-center">Descripción</th>
+      <th class="text-center">Fecha</th>
+      <th class="text-center">Horario</th>
+      <th class="text-center">Instructor</th>
+      <th class="text-center">Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr
+      *ngFor="
+        let clases of clasesPaginados
+          | paginate
+            : { itemsPerPage: pageSize, currentPage: page, totalItems: length }
+      "
+    >
+      <td>{{ clases.idClases }}</td>
+      <td>{{ clases.descripcion }}</td>
+      <td>{{ clases.fecha }}</td>
+      <td>{{ clases.horario }}</td>
+      <td>{{ clases.instructor }}</td>
+      <td>
+        <a
+          class="btn btn-info btn-sm"
+          role="button"
+          style="margin-right: 5px; cursor: pointer"
+          (click)="editarCliente(clases.idClases)"
+        >
+          <i class="far fa-edit text-white"></i>
+        </a>
+        <a
+          class="btn btn-danger btn-sm"
+          role="button"
+          style="margin-right: 5px; cursor: pointer"
+          (click)="eliminarClienteModal(clases.idClases)"
+        >
+          <i class="fa fa-trash text-white"></i>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<div class="text-center">
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>
+<div *ngIf="mostrarModal" class="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="titulo" class="modal-title">{{ tituloModal }}</h5>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="mostrarDivReg" class="registrarCliente">
+          <label id="lblDescripcion" for="Descripcion">Descripción</label>
+          <input
+            [(ngModel)]="txtDesc"
+            placeholder="Descripción"
+            class="form-control"
+            maxlength="8"
+          />
+          <label id="lblFecha" for="fecha">Fecha:</label>
+          <input
+            type="text"
+            id="fecha"
+            placeholder="Fecha"
+            [(ngModel)]="txtFecha"
+            class="form-control"
+          />
+          <label id="lblHora" for="Hora">Hora:</label>
+          <select id="hora" [(ngModel)]="selectHorario" class="form-control">
+            <option>09:00 AM - 10:00 AM</option>
+            <option>19:00 PM - 20:00 PM</option>
+            <option>21:00 PM - 22:00 PM</option>
+        </select>
+          <label id="lblInstructor" for="Instructor">Instructor:</label>
+          <input
+            placeholder="Instructor"
+            id="Instructor"
+            class="form-control"
+            [(ngModel)]="txtInstructor"
+          />
+        </div>
+      </div>
+      <div
+        class="eliminar"
+        *ngIf="mostrarEliminar"
+        style="text-align: center; margin-bottom: 20px"
+      >
+        <h6>
+          ¿Estás seguro de que deseas eliminar al cliente
+          {{ clienteAEliminar?.nombreCliente }}?
+        </h6>
+      </div>
+      <div class="modal-footer">
+        <a
+          class="btn btn-danger btn-sm"
+          role="button"
+          style="cursor: pointer"
+          (click)="cerrarModal()"
+        >
+          <i class="fa fa-close text-white"></i>
+        </a>
+        <a
+          class="btn btn-primary btn-sm"
+          role="button"
+          style="cursor: pointer"
+          id="btnRegistrar"
+          *ngIf="botonRegistrar"
+          (click)="registrarCliente()"
+        >
+          <i class="fa-solid fa-arrow-right text-white"></i>
+        </a>
+        <a
+          class="btn btn-warning btn-sm"
+          role="button"
+          style="cursor: pointer"
+          id="btnRegistrar"
+          *ngIf="botonEditar"
+          (click)="actualizarCliente()"
+        >
+          <i class="fa-solid fa-arrow-right text-white"></i>
+        </a>
+        <a
+          class="btn btn-danger btn-sm"
+          role="button"
+          style="cursor: pointer"
+          id="btnEliminarCliente"
+          *ngIf="botonEliminar"
+          (click)="eliminarCliente(clienteAEliminar?.idCliente)"
+        >
+          <i class="fa-solid fa-trash-can text-white"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
