@@ -27,7 +27,7 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
-  autenticar(): void {
+  IniciarSesion(): void {
     const passwordHash = this.loginService.cifrarSHA256(this.txtPassword);
     this.loginService
       .validarUsuario(this.txtUsuario, passwordHash, '2023-12-12')
@@ -37,8 +37,11 @@ export class LoginComponent {
             console.log('Token generado:', response.token);
             this.cookieService.set('token', response.token);
             this.cookieService.set('id', response.codiUsua);
+            //this.cookieService.set('rol', response.tipoUsua);
             this.cookieService.set('usuario', this.txtUsuario);
             this.cookieService.set('contrasena', passwordHash);
+            this.loginService.actualizarEstadoInicioSesion(true);
+            this.loginService.updateUserRole(response.tipoUsua);
             this.router.navigate(['/home']);
           } else {
             this.alertaVisible = true;

@@ -14,7 +14,7 @@
       </a>
     </li>
     <li class="nav-item nav-category mt-5">Principal</li>
-    <li class="nav-item">
+    <li class="nav-item" *appShowForRoles="['admin', 'contador', 'licenciado']">
       <a
         class="nav-link"
         (click)="reportes()"
@@ -25,16 +25,18 @@
         <span class="menu-title">Reportes</span>
       </a>
     </li>
-    <li class="nav-item">
-      <a class="nav-link" id="calendario"
-      (click)="calendario()"
-      style="cursor: pointer;"
+    <li class="nav-item" *appShowForRoles="['admin', 'recepcion']">
+      <a
+        class="nav-link"
+        id="calendario"
+        (click)="calendario()"
+        style="cursor: pointer"
       >
         <span class="icon-bg"><i class="fa-solid fa-calendar-days"></i></span>
         <span class="menu-title">Clases</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *appShowForRoles="['admin', 'recepcion']">
       <a
         class="nav-link"
         (click)="asistencia()"
@@ -45,48 +47,78 @@
         <span class="menu-title">Asistencia</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *appShowForRoles="['admin', 'contador']">
       <a class="nav-link" id="ventas">
         <span class="icon-bg"><i class="fa-solid fa-cart-shopping"></i></span>
         <span class="menu-title">Ventas</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *appShowForRoles="['admin', 'contador']">
       <a class="nav-link" id="Inventario">
         <span class="icon-bg"><i class="fa-solid fa-box-open"></i></span>
         <span class="menu-title">Inventario</span>
       </a>
     </li>
-    <li class="nav-item">
+    <li class="nav-item" *appShowForRoles="['admin', 'recepcion']">
       <a
-      class="nav-link"
-      (click)="toggleClientesOptions()"
-      style="cursor: pointer"
-      data-toggle="collapse"
-      role="button"
-      aria-expanded="false"
-      aria-controls="clientesCollapse"
-    >
-      <span class="icon-bg"><i class="fa-solid fa-user-tie"></i></span>
-      <span class="menu-title">Clientes</span>
-      <span style="margin-left: 60px;">
-        <i *ngIf="!mostrarClientesOptions" class="fa-solid fa-chevron-right"></i>
-        <i *ngIf="mostrarClientesOptions" class="fa-solid fa-chevron-down"></i>
-      </span>
-    </a>
-      <ul class="nav flex-column sub-menu collapse {{ mostrarClientesOptions ? 'show' : '' }}" id="clientesCollapse" style="padding: 0; margin: 0;">
-        <li class="nav-item" style="margin-bottom: 1px;">
-          <a class="nav-link" style="cursor: pointer;" (click)="clientes()">
-            <div style="background-color: #302c3c; padding: 8px; border-radius: 5px; display: flex; align-items: center; width: 100px;">
-              <i class="fa-solid fa-check-circle" style="margin-right: 8px;"></i>
+        class="nav-link"
+        (click)="toggleClientesOptions()"
+        style="cursor: pointer"
+        data-toggle="collapse"
+        role="button"
+        aria-expanded="false"
+        aria-controls="clientesCollapse"
+      >
+        <span class="icon-bg"><i class="fa-solid fa-user-tie"></i></span>
+        <span class="menu-title">Clientes</span>
+        <span style="margin-left: 60px">
+          <i
+            *ngIf="!mostrarClientesOptions"
+            class="fa-solid fa-chevron-right"
+          ></i>
+          <i
+            *ngIf="mostrarClientesOptions"
+            class="fa-solid fa-chevron-down"
+          ></i>
+        </span>
+      </a>
+      <ul
+        class="nav flex-column sub-menu collapse {{
+          mostrarClientesOptions ? 'show' : ''
+        }}"
+        id="clientesCollapse"
+        style="padding: 0; margin: 0"
+      >
+        <li class="nav-item" style="margin-bottom: 1px">
+          <a class="nav-link" style="cursor: pointer" (click)="clientes()">
+            <div
+              style="
+                background-color: #302c3c;
+                padding: 8px;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                width: 100px;
+              "
+            >
+              <i class="fa-solid fa-check-circle" style="margin-right: 8px"></i>
               <span class="menu-title">Activos</span>
             </div>
           </a>
         </li>
-        <li class="nav-item" style="margin-bottom: 1px;" (click)="exclientes()">
-          <a class="nav-link" style="cursor: pointer;">
-            <div style="background-color: #302c3c; padding: 8px; border-radius: 5px; display: flex; align-items: center; width: 100px;">
-              <i class="fa-solid fa-times-circle" style="margin-right: 8px;"></i>
+        <li class="nav-item" style="margin-bottom: 1px" (click)="exclientes()">
+          <a class="nav-link" style="cursor: pointer">
+            <div
+              style="
+                background-color: #302c3c;
+                padding: 8px;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                width: 100px;
+              "
+            >
+              <i class="fa-solid fa-times-circle" style="margin-right: 8px"></i>
               <span class="menu-title">Inactivos</span>
             </div>
           </a>
@@ -94,7 +126,7 @@
       </ul>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="pages/tables/basic-table.html">
+      <a class="nav-link" (click)="configuracion()" style="cursor: pointer">
         <span class="icon-bg"
           ><i class="fa-solid fa-screwdriver-wrench"></i
         ></span>

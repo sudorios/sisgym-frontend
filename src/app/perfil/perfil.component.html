@@ -7,7 +7,7 @@
     <div class="card-header bg-custom text-white text-center d-flex justify-content-between align-items-center">
       <h5 class="card-title mb-1 h3">INFORMACIÓN DEL USUARIO</h5>
       <div>
-        <span class="icon-bg-orange mr-2"><i class="fa fa-pencil-alt"></i></span>
+        <span class="icon-bg-orange mr-2" *appShowForRoles="['admin']"><i class="fa fa-pencil-alt"></i></span>
     <span class="icon-bg-red mr-2" (click)="volverAHome()"><i class="fa fa-arrow-left"></i></span>
       </div>
     </div>
@@ -39,8 +39,8 @@
               />
             </div>
             <div class="w-30">
-              <a class="btn btn-info btn-block" (click)="mostrar2FA = true">
-                <i class="fa fa-eye" style="color: white"></i>
+              <a class="btn btn-info btn-block" (click)="mostrar2FA = !mostrar2FA">
+                <i class="fa" [ngClass]="mostrar2FA ? 'fa-eye' : 'fa-eye-slash'" style="color: white"></i>
               </a>
             </div>
           </div>

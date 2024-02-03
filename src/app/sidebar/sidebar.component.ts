@@ -2,11 +2,12 @@ import { Component } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { ShowForRolesDirective } from '../show-for-roles.directive';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [FontAwesomeModule, CommonModule],
+  imports: [FontAwesomeModule, CommonModule, ShowForRolesDirective],
   templateUrl: './sidebar.component.html',
   styleUrl: '../home/home.component.css',
 })
@@ -36,6 +37,10 @@ export class SidebarComponent {
 
   calendario(): void {
     this.router.navigate(['/home/calendario']);
+  }
+
+  configuracion(): void {
+    this.router.navigate(['/home/configuracion']);
   }
 
   toggleClientesOptions(): void {

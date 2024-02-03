@@ -7,12 +7,13 @@ import { CommonModule } from '@angular/common';
 import { AutenticarService } from '../services/autenticar.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import { ShowForRolesDirective } from '../show-for-roles.directive';
 
 
 @Component({
   selector: 'app-perfil',
   standalone: true,
-  imports: [HeaderComponent, FooterComponent, CommonModule, FormsModule],
+  imports: [HeaderComponent, FooterComponent, CommonModule, FormsModule, ShowForRolesDirective],
   templateUrl: './perfil.component.html',
   styleUrl: './perfil.component.css',
 })

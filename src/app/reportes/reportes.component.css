@@ -65,3 +65,33 @@
   display: block;
   background-color: rgba(0, 0, 0, 0.4);
 }
+
+
+.bar-chart-container,
+.column2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.doughnut-chart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  aspect-ratio: 4;
+  background: radial-gradient(circle closest-side,#000 90%,#0000) 0/calc(100%/3) 100% no-repeat;
+  animation: l2 1s steps(3) infinite;
+}
+@keyframes l2 {to{background-position: 150%}}

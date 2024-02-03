@@ -22,6 +22,7 @@ export class ReportesComponent implements AfterViewInit {
   selectReporte: string = '1';
   selectTipo: string = '1';
   botonEnviar: boolean = false;
+  loading: boolean = false;
 
   cerrarModal(): void {
     this.mostrarModal = false;
@@ -189,6 +190,7 @@ export class ReportesComponent implements AfterViewInit {
   }
 
   obtenerIngresos() {
+    this.loading = true;
     this.facturaService.getIngresos().subscribe(
       (data) => {
         this.ingresos = data;
@@ -196,11 +198,15 @@ export class ReportesComponent implements AfterViewInit {
       },
       (error) => {
         console.error('Error al obtener ingresos:', error);
+      },
+      () => {
+        this.loading = false;
       }
     );
   }
 
   obtenerAsistenciaCount() {
+    this.loading = true;
     this.asistenciaService.contarAsistencias().subscribe(
       (data) => {
         this.asistenciaCount = data;
@@ -208,11 +214,15 @@ export class ReportesComponent implements AfterViewInit {
       },
       (error) => {
         console.error('Error al obtener asistencias:', error);
+      },
+      () => {
+        this.loading = false;
       }
     );
   }
 
   obtenerMembresiasCount() {
+    this.loading = true;
     this.matriculaService.contarMembresias().subscribe(
       (data) => {
         this.membresiasCount = data;
@@ -220,6 +230,9 @@ export class ReportesComponent implements AfterViewInit {
       },
       (error) => {
         console.error('Error al obtener conteo de membresías:', error);
+      },
+      () => {
+        this.loading = false;
       }
     );
   }

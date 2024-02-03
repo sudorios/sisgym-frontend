@@ -2,13 +2,16 @@
   <div class="export" (click)="abrirModal()"></div>
   <div class="column1">
     <div class="bar-chart-container">
+      <div *ngIf="loading" class="loader"></div>
       <canvas #myChart></canvas>
     </div>
     <div class="doughnut-chart-container">
+      <div *ngIf="loading" class="loader"></div>
       <canvas #myChart2></canvas>
     </div>
   </div>
   <div class="column2">
+    <div *ngIf="loading" class="loader"></div>
     <canvas #myLineChart></canvas>
   </div>
 </div>

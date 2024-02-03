@@ -23,6 +23,7 @@ export class HeaderComponent {
   } 
 
   cerrarSesion() {
+    this.cookieService.deleteAll();
     this.router.navigate(['/login']);
   }
 
