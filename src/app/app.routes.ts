@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
 
 import { LoginComponent } from './features/auth/login/login.component';
-import { AutenticarComponent } from './autenticar/autenticar.component';
-import { PerfilComponent } from './perfil/perfil.component';
+import { AutenticarComponent } from './features/autenticar/autenticar.component';
+import { PerfilComponent } from './features/perfil/perfil.component';
 import { isLoggedInGuard } from './guards/is-logged-in.guard';
 
 export const routes: Routes = [

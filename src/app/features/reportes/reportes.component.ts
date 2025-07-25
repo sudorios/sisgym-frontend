@@ -1,7 +1,7 @@
 import { Component, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
-import { FacturaService } from '../core/services/factura.service';
-import { MatriculaService } from '../core/services/matricula.service';
-import { AsistenciaService } from '../core/services/asistencia.service';
+import { FacturaService } from '../../core/services/factura.service';
+import { MatriculaService } from '../../core/services/matricula.service';
+import { AsistenciaService } from '../../core/services/asistencia.service';
 import { Chart } from 'chart.js/auto';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';

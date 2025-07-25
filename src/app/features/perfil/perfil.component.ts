@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { HeaderComponent } from '../core/layout/header/header.component';
-import { FooterComponent } from '../core/layout/footer/footer.component';
-import { LoginService } from '../core/services/login.service';
+import { HeaderComponent } from '../../core/layout/header/header.component';
+import { FooterComponent } from '../../core/layout/footer/footer.component';
+import { LoginService } from '../../core/services/login.service';
 import { CookieService } from 'ngx-cookie-service';
 import { CommonModule } from '@angular/common';
-import { AutenticarService } from '../core/services/autenticar.service';
+import { AutenticarService } from '../../core/services/autenticar.service';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ShowForRolesDirective } from '../show-for-roles.directive';
+import { ShowForRolesDirective } from '../../show-for-roles.directive';
 
 
 @Component({

@@ -1,16 +1,12 @@
 import {
   Component,
-  OnInit,
-  ChangeDetectorRef,
-  AfterViewInit,
+  OnInit
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
-import moment from 'moment';
-import { ClasesService } from '../../core/services/clases.service';
-import { timer } from 'rxjs';
+import { ClasesService } from '../../../core/services/clases.service';
 import { FiltroPipe } from './filtro.pipe';
 
 @Component({

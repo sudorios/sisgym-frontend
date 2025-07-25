@@ -2,15 +2,15 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-import { AsistenciaService } from '../core/services/asistencia.service';
+import { AsistenciaService } from '../../core/services/asistencia.service';
 
 @Component({
   selector: 'app-asistencia',
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: './asistencia.component.html',
-  styleUrl: './asistencia.component.css',
+  templateUrl: './asistencia.component.html'
 })
+
 export class AsistenciaComponent {
   txtDNI: string = '';
   nombreCliente: string = '';

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -10,17 +10,18 @@ import { CookieService } from 'ngx-cookie-service';
   imports: [FontAwesomeModule, CommonModule],
   templateUrl: './header.component.html',
 })
-
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   usuario: string = '';
+  mostrarModal = false;
 
-  constructor(private router: Router, private cookieService: CookieService) {}
+  constructor(
+    private router: Router,
+    private cookieService: CookieService
+  ) {}
 
-  mostrarModal: boolean = false;
-  
-  ajustes() {
-    this.usuario = this.cookieService.get('usuario') || '';
-  } 
+  ngOnInit() {
+    this.usuario = this.cookieService.get('usuario') || 'Invitado';
+  }
 
   cerrarSesion() {
     this.cookieService.deleteAll();
@@ -30,5 +31,4 @@ export class HeaderComponent {
   verPerfil() {
     this.router.navigate(['/perfil']);
   }
-
 }

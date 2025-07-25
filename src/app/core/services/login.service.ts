@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as CryptoJS from 'crypto-js';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { of, Observable } from 'rxjs';
-import { LoginResponse } from '../../features/auth/login/login.interface';
+import { LoginResponse } from '../models/login.interface';
 import { map } from 'rxjs/operators';
 
 @Injectable({

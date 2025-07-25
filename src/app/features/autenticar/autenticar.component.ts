@@ -3,7 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-import { AutenticarService } from '../core/services/autenticar.service';
+import { AutenticarService } from '../../core/services/autenticar.service';
 import { Router } from '@angular/router';
 
 @Component({

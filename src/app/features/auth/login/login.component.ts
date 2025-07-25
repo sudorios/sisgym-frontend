@@ -27,7 +27,7 @@ export class LoginComponent {
     private cookieService: CookieService
   ) {}
 
-  verContrasena(): void {
+   togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
