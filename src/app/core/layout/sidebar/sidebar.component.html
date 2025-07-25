@@ -1,0 +1,52 @@
+<nav class="bg-dark text-white px-3 vh-100 d-flex flex-column" style="width: 260px; padding-top: 4rem;">
+  <div class="text-center mb-4">
+    <img
+      src="./smart-fit-logo.png"
+      alt="SisGym"
+      class="img-fluid mb-2"
+      style="max-width: 120px; cursor: pointer;"
+      (click)="logo()"
+    />
+  </div>
+  <div class="text-uppercase small text-secondary px-2 mb-2">Principal</div>
+  <ul class="nav flex-column">
+    <li class="nav-item mb-2" *appShowForRoles="['admin', 'contador', 'licenciado']">
+      <a class="nav-link text-white d-flex align-items-center gap-2 px-2" (click)="reportes()" style="cursor: pointer;">
+        <i class="fa-solid fa-chart-simple"></i> Reportes
+      </a>
+    </li>
+    <li class="nav-item mb-2" *appShowForRoles="['admin', 'recepcion']">
+      <a class="nav-link text-white d-flex align-items-center gap-2 px-2" (click)="calendario()" style="cursor: pointer;">
+        <i class="fa-solid fa-calendar-days"></i> Clases
+      </a>
+    </li>
+    <li class="nav-item mb-2" *appShowForRoles="['admin', 'recepcion']">
+      <a class="nav-link text-white d-flex align-items-center gap-2 px-2" (click)="asistencia()" style="cursor: pointer;">
+        <i class="fa-solid fa-clock"></i> Asistencia
+      </a>
+    </li>
+    <li class="nav-item mb-2" *appShowForRoles="['admin', 'recepcion']">
+      <a class="nav-link text-white d-flex align-items-center justify-content-between px-2" (click)="toggleClientesOptions()" style="cursor: pointer;">
+        <span><i class="fa-solid fa-user-tie me-2"></i> Clientes</span>
+        <i class="fa-solid" [ngClass]="mostrarClientesOptions ? 'fa-chevron-down' : 'fa-chevron-right'"></i>
+      </a>
+      <ul class="list-unstyled ps-4 mt-1" [class.d-none]="!mostrarClientesOptions">
+        <li class="mb-1">
+          <a class="nav-link text-white d-flex align-items-center gap-2 px-2" (click)="clientes()" style="cursor: pointer;">
+            <i class="fa-solid fa-circle-check text-success"></i> Activos
+          </a>
+        </li>
+        <li>
+          <a class="nav-link text-white d-flex align-items-center gap-2 px-2" (click)="exclientes()" style="cursor: pointer;">
+            <i class="fa-solid fa-circle-xmark text-danger"></i> Inactivos
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item mt-3">
+      <a class="nav-link text-white d-flex align-items-center gap-2 px-2" (click)="configuracion()" style="cursor: pointer;">
+        <i class="fa-solid fa-screwdriver-wrench"></i> Configuración
+      </a>
+    </li>
+  </ul>
+</nav>
