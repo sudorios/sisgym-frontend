@@ -156,7 +156,7 @@ export class ClientesComponent implements OnInit {
       apellidos: this.txtApellido,
       emailClie: this.txtCorreo,
       telefonoCliente: this.txtTelefono,
-      plan: { id: '1', nombre: 'Básico', precio: 150, duracionDias: 30 }
+      plan: { id: '1', nombre: 'Básico', precio: 150, duracionDias: 30, fechaInicio: new Date().toISOString() }
     };
     this.clientesService.crearCliente(nuevo, this.token).subscribe({
       next: () => this.getClientes(),

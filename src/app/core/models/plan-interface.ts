@@ -3,4 +3,5 @@ export interface Plan {
   nombre: string;
   precio: number;
   duracionDias: number;
+  fechaInicio: string;  
 }
