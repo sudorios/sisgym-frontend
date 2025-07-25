@@ -1,5 +1,5 @@
 import { Directive, Input, TemplateRef, ViewContainerRef } from '@angular/core';
-import { LoginService } from './services/login.service';
+import { LoginService } from './core/services/login.service';
 
 
 @Directive({

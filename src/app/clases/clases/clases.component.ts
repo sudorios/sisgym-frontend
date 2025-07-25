@@ -9,7 +9,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import moment from 'moment';
-import { ClasesService } from '../../services/clases.service';
+import { ClasesService } from '../../core/services/clases.service';
 import { timer } from 'rxjs';
 import { FiltroPipe } from './filtro.pipe';
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { HeaderComponent } from '../header/header.component';
-import { FooterComponent } from '../footer/footer.component';
-import { SidebarComponent } from '../sidebar/sidebar.component';
+import { HeaderComponent } from '../../core/layout/header/header.component';
+import { FooterComponent } from '../../core/layout/footer/footer.component';
+import { SidebarComponent } from '../../sidebar/sidebar.component';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -9,7 +9,6 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [HeaderComponent, SidebarComponent, FooterComponent, RouterOutlet],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css'
 })
 export class HomeComponent {
 

@@ -9,8 +9,8 @@ import { CookieService } from 'ngx-cookie-service';
   standalone: true,
   imports: [FontAwesomeModule, CommonModule],
   templateUrl: './header.component.html',
-  styleUrl: '../home/home.component.css',
 })
+
 export class HeaderComponent {
   usuario: string = '';
 

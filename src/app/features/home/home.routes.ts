@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home.component';
-import { ClientesComponent } from '../clientes/clientes.component';
-import { ExClientesComponent } from '../clientes/ex-clientes/exclientes.component';
-import { AsistenciaComponent } from '../asistencia/asistencia.component';
-import { ReportesComponent } from '../reportes/reportes.component';
-import { CalendarioComponent } from '../clases/calendario/calendario.component';
-import { ClasesComponent } from '../clases/clases/clases.component';
-import { HasRoleGuard } from '../guards/has-role.guard';
-import { ConfiguracionComponent } from '../configuracion/configuracion.component';
+import { ClientesComponent } from '../../clientes/clientes.component';
+import { ExClientesComponent } from '../../clientes/ex-clientes/exclientes.component';
+import { AsistenciaComponent } from '../../asistencia/asistencia.component';
+import { ReportesComponent } from '../../reportes/reportes.component';
+import { CalendarioComponent } from '../../clases/calendario/calendario.component';
+import { ClasesComponent } from '../../clases/clases/clases.component';
+import { HasRoleGuard } from '../../guards/has-role.guard';
+import { ConfiguracionComponent } from '../../configuracion/configuracion.component';
 
 const routes: Routes = [
   {

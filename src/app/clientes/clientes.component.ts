@@ -4,10 +4,10 @@ import { CommonModule } from '@angular/common';
 import { CookieService } from 'ngx-cookie-service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
-import { MatriculaService } from '../services/matricula.service';
+import { MatriculaService } from '../core/services/matricula.service';
 import moment from 'moment';
 import { PagoService } from './pago.service';
-import { FacturaService } from '../services/factura.service';
+import { FacturaService } from '../core/services/factura.service';
 import { timer } from 'rxjs';
 import { FiltroPipe } from './filtro.pipe';
 

@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CookieService } from 'ngx-cookie-service';
-import { AsistenciaService } from '../services/asistencia.service';
+import { AsistenciaService } from '../core/services/asistencia.service';
 
 @Component({
   selector: 'app-asistencia',
