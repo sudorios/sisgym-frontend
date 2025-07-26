@@ -5,10 +5,10 @@ import { Component } from '@angular/core';
   standalone: true,
   imports: [],
   template: `
-    <footer class="bg-dark text-light py-3 mt-auto">
-      <div class="container">
+    <footer class="bg-dark text-light py-3 mt-auto" style="width: 100%; position: relative; z-index: 999;">
+      <div class="container-fluid">
         <div class="row align-items-center">
-          <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+          <div class="col-12 text-center">
             <small>© 2024 Sisgym.org.pe. Todos los derechos reservados.</small>
           </div>
         </div>

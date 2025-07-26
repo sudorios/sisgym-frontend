@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { of, Observable } from 'rxjs';
 import { LoginResponse } from '../models/login.interface';
 import { map } from 'rxjs/operators';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
@@ -49,7 +50,9 @@ export class LoginService {
   }
 
   isLoggedIn: boolean = false;
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) {
+    this.checkAuthenticationStatus();
+  }
 
   cifrarSHA256(texto: string): string {
     const hash = CryptoJS.SHA256(texto).toString(CryptoJS.enc.Hex);
@@ -76,5 +79,19 @@ export class LoginService {
 
   actualizarEstadoInicioSesion(estado: boolean): void {
     this.isLoggedIn = estado;
+  }
+
+  private checkAuthenticationStatus(): void {
+    const token = this.cookieService.get('token');
+    if (token && token.trim() !== '') {
+      this.isLoggedIn = true;
+      const userRole = this.cookieService.get('userRole');
+      if (userRole && userRole.trim() !== '') {
+        this.userRole = userRole;
+      }
+    } else {
+      this.isLoggedIn = false;
+      this.userRole = '';
+    }
   }
 }

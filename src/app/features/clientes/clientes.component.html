@@ -7,7 +7,7 @@
 <div class="row mb-2">
   <div class="col-8">
     <button class="btn btn-success btn-sm me-1" (click)="abrirModal()">
-      <i class="fa fa-plus"></i>
+      <i class="fa fa-plus"></i> Nuevo
     </button>
   </div>
   <div class="col-4">
@@ -19,50 +19,204 @@
     />
   </div>
 </div>
-<table class="table table-striped table-bordered table-responsive-md w-100">
-  <thead>
-    <tr class="text-center">
-      <th>Código</th>
-      <th>Nombres</th>
-      <th>Apellidos</th>
-      <th>DNI</th>
-      <th>Email</th>
-      <th>Teléfono</th>
-      <th>Plan</th>
-      <th>Opciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngIf="loading">
-      <td colspan="8" class="text-center">Cargando...</td>
-    </tr>
-    <tr *ngIf="!loading && clientesPaginados.length === 0">
-      <td colspan="8" class="text-center">CLIENTE NO ENCONTRADO</td>
-    </tr>
-    <tr
-      *ngFor="
-        let cliente of clientesPaginados
-          | paginate: { itemsPerPage: pageSize, currentPage: page, totalItems: length }
-      "
-    >
-      <td class="text-center">{{ cliente.id }}</td>
-      <td>{{ cliente.nombreCliente }}</td>
-      <td>{{ cliente.apellidos }}</td>
-      <td>{{ cliente.dni }}</td>
-      <td>{{ cliente.emailClie }}</td>
-      <td>{{ cliente.telefonoCliente }}</td>
-      <td>{{ cliente.plan.nombre }}</td>
-      <td class="text-center">
-        <button class="btn btn-info btn-sm me-1" (click)="editarCliente(cliente.id)">
-          <i class="far fa-edit text-white"></i>
+
+<div class="table-responsive">
+  <table
+    mat-table
+    [dataSource]="
+      clientesPaginados
+        | paginate:{ itemsPerPage: pageSize, currentPage: page, totalItems: length }
+    "
+    class="mat-elevation-z8 w-100"
+  >
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Código</th>
+      <td mat-cell *matCellDef="let c" class="text-center">{{ c.id }}</td>
+    </ng-container>
+    <ng-container matColumnDef="nombreCliente">
+      <th mat-header-cell *matHeaderCellDef>Nombres</th>
+      <td mat-cell *matCellDef="let c">{{ c.nombreCliente }}</td>
+    </ng-container>
+    <ng-container matColumnDef="apellidos">
+      <th mat-header-cell *matHeaderCellDef>Apellidos</th>
+      <td mat-cell *matCellDef="let c">{{ c.apellidos }}</td>
+    </ng-container>
+    <ng-container matColumnDef="dni">
+      <th mat-header-cell *matHeaderCellDef>DNI</th>
+      <td mat-cell *matCellDef="let c">{{ c.dni }}</td>
+    </ng-container>
+    <ng-container matColumnDef="emailClie">
+      <th mat-header-cell *matHeaderCellDef>Email</th>
+      <td mat-cell *matCellDef="let c">{{ c.emailClie }}</td>
+    </ng-container>
+    <ng-container matColumnDef="telefonoCliente">
+      <th mat-header-cell *matHeaderCellDef>Teléfono</th>
+      <td mat-cell *matCellDef="let c">{{ c.telefonoCliente }}</td>
+    </ng-container>
+    <ng-container matColumnDef="plan">
+      <th mat-header-cell *matHeaderCellDef>Plan</th>
+      <td mat-cell *matCellDef="let c">{{ c.plan.nombre }}</td>
+    </ng-container>
+    <ng-container matColumnDef="acciones">
+      <th mat-header-cell *matHeaderCellDef class="text-center">Opciones</th>
+      <td mat-cell *matCellDef="let c" class="text-center">
+        <button mat-icon-button color="primary" (click)="editarCliente(c.id)">
+          <mat-icon>edit</mat-icon>
         </button>
-        <button class="btn btn-danger btn-sm" (click)="eliminarClienteModal(cliente)">
-          <i class="fa fa-trash text-white"></i>
+        <button mat-icon-button color="warn" (click)="eliminarClienteModal(c)">
+          <mat-icon>delete</mat-icon>
         </button>
       </td>
-    </tr>
-  </tbody>
-</table>
-<div class="text-center">
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
+
+<div class="text-center mt-2">
   <pagination-controls (pageChange)="page = $event"></pagination-controls>
 </div>
+
+<!-- Modal para agregar/editar/eliminar clientes -->
+<div class="modal fade" [class.show]="mostrarModal" [style.display]="mostrarModal ? 'block' : 'none'" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLabel">{{ tituloModal }}</h5>
+        <button type="button" class="btn-close" (click)="cerrarModal()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Formulario para registrar/editar cliente -->
+        <div *ngIf="mostrarDivReg">
+          <form>
+            <div class="mb-3">
+              <label for="txtDNI" class="form-label">DNI <span class="text-danger">*</span></label>
+              <input
+                type="text"
+                class="form-control"
+                id="txtDNI"
+                [(ngModel)]="txtDNI"
+                name="txtDNI"
+                placeholder="Ingrese el DNI"
+                [class.is-invalid]="enviar && !txtDNI.trim()"
+              />
+              <div *ngIf="enviar && !txtDNI.trim()" class="invalid-feedback">
+                El DNI es obligatorio
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="txtNombre" class="form-label">Nombres <span class="text-danger">*</span></label>
+              <input
+                type="text"
+                class="form-control"
+                id="txtNombre"
+                [(ngModel)]="txtNombre"
+                name="txtNombre"
+                placeholder="Ingrese los nombres"
+                [class.is-invalid]="enviar && !txtNombre.trim()"
+              />
+              <div *ngIf="enviar && !txtNombre.trim()" class="invalid-feedback">
+                Los nombres son obligatorios
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="txtApellido" class="form-label">Apellidos <span class="text-danger">*</span></label>
+              <input
+                type="text"
+                class="form-control"
+                id="txtApellido"
+                [(ngModel)]="txtApellido"
+                name="txtApellido"
+                placeholder="Ingrese los apellidos"
+                [class.is-invalid]="enviar && !txtApellido.trim()"
+              />
+              <div *ngIf="enviar && !txtApellido.trim()" class="invalid-feedback">
+                Los apellidos son obligatorios
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="txtCorreo" class="form-label">Email <span class="text-danger">*</span></label>
+              <input
+                type="email"
+                class="form-control"
+                id="txtCorreo"
+                [(ngModel)]="txtCorreo"
+                name="txtCorreo"
+                placeholder="Ingrese el email"
+                [class.is-invalid]="enviar && !txtCorreo.trim()"
+              />
+              <div *ngIf="enviar && !txtCorreo.trim()" class="invalid-feedback">
+                El email es obligatorio
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="txtTelefono" class="form-label">Teléfono</label>
+              <input
+                type="text"
+                class="form-control"
+                id="txtTelefono"
+                [(ngModel)]="txtTelefono"
+                name="txtTelefono"
+                placeholder="Ingrese el teléfono (opcional)"
+              />
+            </div>
+          </form>
+        </div>
+        
+        <div *ngIf="mostrarEliminar">
+          <div class="alert alert-warning" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            ¿Está seguro que desea eliminar al cliente?
+          </div>
+          <div *ngIf="clienteAEliminar" class="card">
+            <div class="card-body">
+              <h6 class="card-title">{{ clienteAEliminar.nombreCliente }} {{ clienteAEliminar.apellidos }}</h6>
+              <p class="card-text">
+                <strong>DNI:</strong> {{ clienteAEliminar.dni }}<br>
+                <strong>Email:</strong> {{ clienteAEliminar.emailClie }}<br>
+                <strong>Teléfono:</strong> {{ clienteAEliminar.telefonoCliente || 'No especificado' }}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="cerrarModal()">
+          Cancelar
+        </button>
+        <button 
+          *ngIf="botonRegistrar" 
+          type="button" 
+          class="btn btn-success" 
+          (click)="registrarCliente()"
+        >
+          <i class="fas fa-save me-1"></i> Registrar
+        </button>
+        <button 
+          *ngIf="botonEditar" 
+          type="button" 
+          class="btn btn-primary" 
+          (click)="actualizarCliente()"
+        >
+          <i class="fas fa-edit me-1"></i> Actualizar
+        </button>
+        <button 
+          *ngIf="botonEliminar" 
+          type="button" 
+          class="btn btn-danger" 
+          (click)="eliminarCliente()"
+        >
+          <i class="fas fa-trash me-1"></i> Eliminar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop del modal -->
+<div *ngIf="mostrarModal" class="modal-backdrop fade show" (click)="cerrarModal()"></div>

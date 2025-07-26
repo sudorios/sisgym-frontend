@@ -1,7 +1,7 @@
 import { Component, ElementRef, AfterViewInit, ViewChild } from '@angular/core';
-import { FacturaService } from '../../core/services/factura.service';
-import { MatriculaService } from '../../core/services/matricula.service';
-import { AsistenciaService } from '../../core/services/asistencia.service';
+// import { FacturaService } from '../../core/services/factura.service';
+// import { MatriculaService } from '../../core/services/matricula.service';
+// import { AsistenciaService } from '../../core/services/asistencia.service';
 import { Chart } from 'chart.js/auto';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -14,7 +14,6 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './reportes.component.css',
 })
 export class ReportesComponent implements AfterViewInit {
-  /*Modal */
 
   mostrarModal: boolean = false;
   tituloModal: string = 'Exportar reporte';
@@ -45,7 +44,11 @@ export class ReportesComponent implements AfterViewInit {
   }
 
   private generarExcelIngresos(): void {
-    const timestamp = new Date().getTime();
+    // API no disponible - usando datos estáticos
+    alert('Funcionalidad de exportación no disponible sin API. Usando datos estáticos para demostración.');
+    this.cerrarModal();
+    
+    /* const timestamp = new Date().getTime();
     const url = `http://localhost:8080/Sis_Gym/factura/ingresos.xlsx?timestamp=${timestamp}`;
 
     this.facturaService.generarExcel().subscribe(
@@ -61,10 +64,14 @@ export class ReportesComponent implements AfterViewInit {
       (error) => {
         console.error('Error al generar el Excel', error);
       }
-    );
+    ); */
   }
   private excelAsistencia(): void {
-    const timestamp = new Date().getTime();
+    // API no disponible - usando datos estáticos
+    alert('Funcionalidad de exportación no disponible sin API. Usando datos estáticos para demostración.');
+    this.cerrarModal();
+    
+    /* const timestamp = new Date().getTime();
     const url = `http://localhost:8080/Sis_Gym/factura/asistencia.xlsx?timestamp=${timestamp}`;
 
     this.asistenciaService.generarExcel().subscribe(
@@ -80,11 +87,15 @@ export class ReportesComponent implements AfterViewInit {
       (error) => {
         console.error('Error al generar el Excel', error);
       }
-    );
+    ); */
   }
 
   private excelMembresias(): void {
-    const timestamp = new Date().getTime();
+    // API no disponible - usando datos estáticos
+    alert('Funcionalidad de exportación no disponible sin API. Usando datos estáticos para demostración.');
+    this.cerrarModal();
+    
+    /* const timestamp = new Date().getTime();
     const url = `http://localhost:8080/Sis_Gym/factura/membresias.xlsx?timestamp=${timestamp}`;
     this.matriculaService.generarExcel().subscribe(
       () => {
@@ -99,11 +110,15 @@ export class ReportesComponent implements AfterViewInit {
       (error) => {
         console.error('Error al generar el Excel', error);
       }
-    );
+    ); */
   }
 
   private generarPDFIngresos(): void {
-    const timestamp = new Date().getTime();
+    // API no disponible - usando datos estáticos
+    alert('Funcionalidad de exportación no disponible sin API. Usando datos estáticos para demostración.');
+    this.cerrarModal();
+    
+    /* const timestamp = new Date().getTime();
     const randomValue = Math.random();
     const url = `http://localhost:8080/Sis_Gym/factura/ingresos.pdf?timestamp=${timestamp}&random=${randomValue}`;
     this.facturaService.generarPDF().subscribe(
@@ -117,10 +132,14 @@ export class ReportesComponent implements AfterViewInit {
       (error) => {
         console.error('Error al generar el PDF', error);
       }
-    );
+    ); */
   }
   private PDFMembresias(): void {
-    const timestamp = new Date().getTime();
+    // API no disponible - usando datos estáticos
+    alert('Funcionalidad de exportación no disponible sin API. Usando datos estáticos para demostración.');
+    this.cerrarModal();
+    
+    /* const timestamp = new Date().getTime();
     const randomValue = Math.random();
     const url = `http://localhost:8080/Sis_Gym/factura/membresias.pdf?timestamp=${timestamp}&random=${randomValue}`;
     this.matriculaService.generarPDF().subscribe(
@@ -133,11 +152,15 @@ export class ReportesComponent implements AfterViewInit {
       (error) => {
         console.error('Error al generar el PDF', error);
       }
-    );
+    ); */
   }
 
   private PDFAsistencia(): void {
-    const timestamp = new Date().getTime();
+    // API no disponible - usando datos estáticos
+    alert('Funcionalidad de exportación no disponible sin API. Usando datos estáticos para demostración.');
+    this.cerrarModal();
+    
+    /* const timestamp = new Date().getTime();
     const randomValue = Math.random();
     const url = `http://localhost:8080/Sis_Gym/factura/asistencia.pdf?timestamp=${timestamp}&random=${randomValue}`;
     this.asistenciaService.generarPDF().subscribe(
@@ -150,7 +173,7 @@ export class ReportesComponent implements AfterViewInit {
       (error) => {
         console.error('Error al generar el PDF', error);
       }
-    );
+    ); */
   }
 
   abrirModal(): void {
@@ -178,9 +201,9 @@ export class ReportesComponent implements AfterViewInit {
   @ViewChild('myLineChart') myLineChart!: ElementRef;
 
   constructor(
-    private facturaService: FacturaService,
-    private matriculaService: MatriculaService,
-    private asistenciaService: AsistenciaService
+    // private facturaService: FacturaService,
+    // private matriculaService: MatriculaService,
+    // private asistenciaService: AsistenciaService
   ) {}
 
   ngAfterViewInit(): void {
@@ -191,50 +214,44 @@ export class ReportesComponent implements AfterViewInit {
 
   obtenerIngresos() {
     this.loading = true;
-    this.facturaService.getIngresos().subscribe(
-      (data) => {
-        this.ingresos = data;
-        this.procesarIngresosParaGrafico();
-      },
-      (error) => {
-        console.error('Error al obtener ingresos:', error);
-      },
-      () => {
-        this.loading = false;
-      }
-    );
+    this.ingresos = [
+      { year: 2024, month: 1, ingresos: 15000 },
+      { year: 2024, month: 2, ingresos: 18500 },
+      { year: 2024, month: 3, ingresos: 22000 },
+      { year: 2024, month: 4, ingresos: 19500 },
+      { year: 2024, month: 5, ingresos: 25000 },
+      { year: 2024, month: 6, ingresos: 28000 },
+      { year: 2024, month: 7, ingresos: 32000 }
+    ];
+    this.procesarIngresosParaGrafico();
+    this.loading = false;
   }
 
   obtenerAsistenciaCount() {
     this.loading = true;
-    this.asistenciaService.contarAsistencias().subscribe(
-      (data) => {
-        this.asistenciaCount = data;
-        this.procesarAsistenciasParaGraficoLineal();
-      },
-      (error) => {
-        console.error('Error al obtener asistencias:', error);
-      },
-      () => {
-        this.loading = false;
-      }
-    );
+    // Datos estáticos de asistencias
+    this.asistenciaCount = [
+      { fecha: '2024-07-20', cantidad: 45 },
+      { fecha: '2024-07-21', cantidad: 52 },
+      { fecha: '2024-07-22', cantidad: 38 },
+      { fecha: '2024-07-23', cantidad: 61 },
+      { fecha: '2024-07-24', cantidad: 48 },
+      { fecha: '2024-07-25', cantidad: 55 }
+    ];
+    this.procesarAsistenciasParaGraficoLineal();
+    this.loading = false;
   }
 
   obtenerMembresiasCount() {
     this.loading = true;
-    this.matriculaService.contarMembresias().subscribe(
-      (data) => {
-        this.membresiasCount = data;
-        this.generarGraficoTorta();
-      },
-      (error) => {
-        console.error('Error al obtener conteo de membresías:', error);
-      },
-      () => {
-        this.loading = false;
-      }
-    );
+    // Datos estáticos de membresías
+    this.membresiasCount = [
+      { tipoMembresia: 'Basico', cantidad: 120 },
+      { tipoMembresia: 'Gold', cantidad: 85 },
+      { tipoMembresia: 'Platino', cantidad: 45 }
+    ];
+    this.generarGraficoTorta();
+    this.loading = false;
   }
 
   procesarIngresosParaGrafico() {
