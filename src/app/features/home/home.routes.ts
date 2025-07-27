@@ -6,7 +6,7 @@ import { AsistenciaComponent } from '../asistencia/asistencia.component';
 import { ReportesComponent } from '../reportes/reportes.component';
 import { CalendarioComponent } from '../clases/calendario/calendario.component';
 import { ClasesComponent } from '../clases/clases/clases.component';
-import { HasRoleGuard } from '../../components/guards/has-role.guard';
+import { HasRoleGuard } from '../../core/guards/has-role.guard';
 import { ConfiguracionComponent } from '../configuracion/configuracion.component';
 
 const routes: Routes = [

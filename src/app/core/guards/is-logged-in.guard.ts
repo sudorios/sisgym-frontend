@@ -1,6 +1,6 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { ɵɵdirectiveInject as directiveInject } from '@angular/core';
-import { LoginService } from '../../core/services/login.service';
+import { LoginService } from '../services/login.service';
 import { CookieService } from 'ngx-cookie-service';
 
 export const isLoggedInGuard: CanActivateFn = (route, state) => {

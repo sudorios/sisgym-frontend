@@ -77,7 +77,6 @@
   <pagination-controls (pageChange)="page = $event"></pagination-controls>
 </div>
 
-<!-- Modal para agregar/editar/eliminar clientes -->
 <div class="modal fade" [class.show]="mostrarModal" [style.display]="mostrarModal ? 'block' : 'none'" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -86,7 +85,6 @@
         <button type="button" class="btn-close" (click)="cerrarModal()" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- Formulario para registrar/editar cliente -->
         <div *ngIf="mostrarDivReg">
           <form>
             <div class="mb-3">
@@ -218,5 +216,4 @@
   </div>
 </div>
 
-<!-- Backdrop del modal -->
 <div *ngIf="mostrarModal" class="modal-backdrop fade show" (click)="cerrarModal()"></div>

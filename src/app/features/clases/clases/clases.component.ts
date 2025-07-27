@@ -7,7 +7,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule } from '@angular/forms';
 import { ClasesService } from '../../../core/services/clases.service';
-import { FiltroPipe } from './filtro.pipe';
+import { FiltroPipe } from '../../../shared/pipes/filltro_clases.pipe';
 
 @Component({
   selector: 'app-clases',
