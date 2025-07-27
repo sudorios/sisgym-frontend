@@ -23,17 +23,22 @@
       </button>
     </div>
 
-    <!-- Separador -->
     <div class="col-12">
       <hr class="my-4" />
     </div>
-    <div class="col-12 text-center mt-3">
-      <p class="h5 mb-1">Bienvenido a MuslitoFIT:</p>
-      <h2 class="fw-bold mb-1" [style.color]="colorTexto">
-        {{ cliente?.nombreCliente || 'Cliente no encontrado' }}
-        {{ cliente?.apellidos || '' }}
-      </h2>
-      <p class="h6 text-muted">{{ diasRestantes }}</p>
+    <div class="col-12 text-center mt-5">
+      <p class="h3 mb-3">Bienvenido:</p>
+      <h1
+        class="fw-bold mb-4"
+        [style.color]="colorTexto"
+        style="font-size: 4rem; letter-spacing: 0.3rem"
+      >
+        {{ cliente?.nombreCliente || "Cliente no encontrado" }}
+        {{ cliente?.apellidos || "" }}
+      </h1>
+      <p class="h4 text-dark" style="font-size: 2rem; letter-spacing: 0.2rem">
+       {{ diasRestantes }}
+      </p>
     </div>
   </div>
 </div>

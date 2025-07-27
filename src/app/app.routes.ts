@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './features/auth/login/login.component';
 import { AutenticarComponent } from './features/autenticar/autenticar.component';
 import { PerfilComponent } from './features/perfil/perfil.component';
-import { isLoggedInGuard } from './components/guards/is-logged-in.guard';
+import { isLoggedInGuard } from './core/guards/is-logged-in.guard';
 
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/login' },
