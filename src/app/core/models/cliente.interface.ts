@@ -9,3 +9,18 @@ export interface Cliente {
   telefonoCliente?: string;
   plan: Plan;
 }
+
+
+export interface ClienteForm {
+  dni: string;
+  nombre: string;
+  apellido: string;
+  correo: string;
+  telefono: string;
+}
+
+export interface ModalState {
+  mostrar: boolean;
+  modo: 'registrar' | 'editar' | 'eliminar';
+}
+
