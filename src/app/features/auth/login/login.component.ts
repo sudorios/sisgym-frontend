@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { LoginService } from '../../../core/services/login.service';
 import { CookieService } from 'ngx-cookie-service';
-
 
 @Component({
   selector: 'app-login',
@@ -12,7 +11,7 @@ import { CookieService } from 'ngx-cookie-service';
   imports: [CommonModule, FormsModule],
   templateUrl: './login.component.html',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   txtUsuario: string = '';
   txtPassword: string = '';
   usuarioValido: boolean = true;
@@ -26,14 +25,7 @@ export class LoginComponent implements OnInit {
     private cookieService: CookieService
   ) {}
 
-  ngOnInit(): void {
-    const token = this.cookieService.get('token');
-    if (token && token.trim() !== '') {
-      this.router.navigate(['/home']);
-    }
-  }
-
-   togglePassword() {
+  togglePassword() {
     this.showPassword = !this.showPassword;
   }
 

@@ -5,7 +5,7 @@ import { NgxPaginationModule } from 'ngx-pagination'
 import { MatTableModule } from '@angular/material/table'
 import { MatIconModule } from '@angular/material/icon'
 import { MatButtonModule } from '@angular/material/button'
-import { Cliente } from '../../core/models/cliente.interface'
+import { Cliente, ClienteForm, ModalState } from '../../core/models/cliente.interface'
 import { ClientesService } from '../../core/services/clientes.service'
 import { CookieService } from 'ngx-cookie-service'
 
@@ -24,29 +24,18 @@ import { CookieService } from 'ngx-cookie-service'
   styleUrls: ['./clientes.component.css']
 })
 export class ClientesComponent implements OnInit {
-  displayedColumns = ['id','nombreCliente','apellidos','dni','emailClie','telefonoCliente','plan','acciones']
-  clientes: Cliente[] = []
-  clientesPaginados: Cliente[] = []
-  length = 0
-  pageSize = 8
-  page = 1
-  buscarClie = ''
-  mostrarModal = false
-  tituloModal = 'Registrar Cliente'
-  mostrarDivReg = true
-  mostrarEliminar = false
-  botonRegistrar = true
-  botonEditar = false
-  botonEliminar = false
-  enviar = false
-  txtDNI = ''
-  txtNombre = ''
-  txtApellido = ''
-  txtCorreo = ''
-  txtTelefono = ''
-  clienteAEliminar?: Cliente
-  clienteAEditar?: Cliente
-  valorIdCliente?: string
+  displayedColumns = ['id', 'nombreCliente', 'apellidos', 'dni', 'emailClie', 'telefonoCliente', 'plan', 'acciones'];
+  clientes: Cliente[] = [];
+  clientesPaginados: Cliente[] = [];
+  length = 0;
+  pageSize = 8;
+  page = 1;
+  buscarClie = '';
+
+  modal: ModalState = { mostrar: false, modo: 'registrar' };
+  enviar = false;
+  formCliente: ClienteForm = { dni: '', nombre: '', apellido: '', correo: '', telefono: '' };
+  clienteSeleccionado?: Cliente;
 
   constructor(
     private clientesService: ClientesService,
@@ -54,121 +43,110 @@ export class ClientesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getClientes()
+    this.getClientes();
   }
 
   getClientes(): void {
-    this.mostrarModal = false
-    const token = this.cookieService.get('token')
+    this.modal.mostrar = false;
+    const token = this.cookieService.get('token');
     this.clientesService.getClientes(token).subscribe({
       next: data => {
-        this.clientes = data.sort((a,b)=>+b.id - +a.id)
-        this.length = this.clientes.length
-        this.clientesPaginados = [...this.clientes]
+        this.clientes = data.sort((a, b) => +b.id - +a.id);
+        this.length = this.clientes.length;
+        this.clientesPaginados = [...this.clientes];
       },
       error: err => console.error(err)
-    })
+    });
   }
 
   onKeyReleased(): void {
-    const term = this.buscarClie.trim().toLowerCase()
-    this.clientesPaginados = this.clientes.filter(c=>
-      [c.nombreCliente,c.apellidos,c.dni,c.emailClie,c.telefonoCliente]
-        .some(f=>f?.toLowerCase().includes(term))
-    )
-    this.length = this.clientesPaginados.length
-    this.page = 1
+    const term = this.buscarClie.trim().toLowerCase();
+    this.clientesPaginados = this.clientes.filter(c =>
+      [c.nombreCliente, c.apellidos, c.dni, c.emailClie, c.telefonoCliente].some(f => f?.toLowerCase().includes(term))
+    );
+    this.length = this.clientesPaginados.length;
+    this.page = 1;
   }
 
-  abrirModal(): void {
-    this.tituloModal = 'Registrar Cliente'
-    this.mostrarModal = this.mostrarDivReg = true
-    this.resetButtons()
+  abrirModal(modo: ModalState['modo'], cliente?: Cliente): void {
+    this.modal = { mostrar: true, modo };
+    this.enviar = false;
+    this.clienteSeleccionado = cliente;
+
+    if (modo === 'registrar') {
+      this.limpiarFormulario();
+    } else if (cliente) {
+      this.formCliente = {
+        dni: cliente.dni,
+        nombre: cliente.nombreCliente,
+        apellido: cliente.apellidos,
+        correo: cliente.emailClie,
+        telefono: cliente.telefonoCliente || ''
+      };
+    }
   }
 
   cerrarModal(): void {
-    this.mostrarModal = false
-    this.limpiarInputs()
-    this.resetButtons()
+    this.modal.mostrar = false;
+    this.limpiarFormulario();
   }
 
-  private resetButtons(): void {
-    this.botonRegistrar = true
-    this.botonEditar = this.botonEliminar = false
-    this.mostrarEliminar = false
-  }
-
-  private limpiarInputs(): void {
-    this.txtDNI = ''
-    this.txtNombre = ''
-    this.txtApellido = ''
-    this.txtCorreo = ''
-    this.txtTelefono = ''
-    this.enviar = false
+  limpiarFormulario(): void {
+    this.formCliente = { dni: '', nombre: '', apellido: '', correo: '', telefono: '' };
+    this.enviar = false;
   }
 
   camposObligatorios(): boolean {
-    this.enviar = !(this.txtDNI.trim() && this.txtNombre.trim() && this.txtApellido.trim() && this.txtCorreo.trim())
-    return !this.enviar
+    const { dni, nombre, apellido, correo } = this.formCliente;
+    this.enviar = !(dni.trim() && nombre.trim() && apellido.trim() && correo.trim());
+    return !this.enviar;
   }
 
   registrarCliente(): void {
-    if (!this.camposObligatorios()) return
-    const nuevo: Omit<Cliente,'id'> = {
-      dni: this.txtDNI,
-      nombreCliente: this.txtNombre,
-      apellidos: this.txtApellido,
-      emailClie: this.txtCorreo,
-      telefonoCliente: this.txtTelefono,
-      plan: { id:'1', nombre:'Básico', precio:150, duracionDias:30, fechaInicio:new Date().toISOString() }
-    }
-    this.clientesService.crearCliente(nuevo, this.cookieService.get('token'))
-      .subscribe({ next: ()=>this.getClientes(), error: err=>console.error(err) })
-    this.cerrarModal()
-  }
-
-  editarCliente(id: string): void {
-    const cli = this.clientes.find(c=>c.id===id)
-    if (!cli) return
-    this.clienteAEditar = cli
-    this.valorIdCliente = id
-    this.tituloModal = 'Editar Cliente'
-    this.mostrarModal = this.mostrarDivReg = true
-    this.botonEditar = true
-    this.txtDNI = cli.dni
-    this.txtNombre = cli.nombreCliente
-    this.txtApellido = cli.apellidos
-    this.txtCorreo = cli.emailClie
-    this.txtTelefono = cli.telefonoCliente||''
+    if (!this.camposObligatorios()) return;
+    const nuevo: Omit<Cliente, 'id'> = {
+      dni: this.formCliente.dni,
+      nombreCliente: this.formCliente.nombre,
+      apellidos: this.formCliente.apellido,
+      emailClie: this.formCliente.correo,
+      telefonoCliente: this.formCliente.telefono,
+      plan: {
+        id: '1',
+        nombre: 'Básico',
+        precio: 150,
+        duracionDias: 30,
+        fechaInicio: new Date().toISOString()
+      }
+    };
+    this.clientesService.crearCliente(nuevo, this.cookieService.get('token')).subscribe({
+      next: () => this.getClientes(),
+      error: err => console.error(err)
+    });
+    this.cerrarModal();
   }
 
   actualizarCliente(): void {
-    if (!this.valorIdCliente||!this.camposObligatorios()) return
-    const cambios: Partial<Omit<Cliente,'id'>> = {
-      dni:this.txtDNI,
-      nombreCliente:this.txtNombre,
-      apellidos:this.txtApellido,
-      emailClie:this.txtCorreo,
-      telefonoCliente:this.txtTelefono
-    }
-    this.clientesService.editarCliente(this.valorIdCliente,cambios,this.cookieService.get('token'))
-      .subscribe({ next: ()=>this.getClientes(), error: err=>console.error(err) })
-    this.cerrarModal()
-  }
-
-  eliminarClienteModal(cliente: Cliente): void {
-    this.clienteAEliminar = cliente
-    this.tituloModal = 'Eliminar Cliente'
-    this.mostrarModal = this.mostrarEliminar = true
-    this.mostrarDivReg = false
-    this.botonEliminar = true
-    this.botonRegistrar = this.botonEditar = false
+    if (!this.clienteSeleccionado || !this.camposObligatorios()) return;
+    const cambios: Partial<Omit<Cliente, 'id'>> = {
+      dni: this.formCliente.dni,
+      nombreCliente: this.formCliente.nombre,
+      apellidos: this.formCliente.apellido,
+      emailClie: this.formCliente.correo,
+      telefonoCliente: this.formCliente.telefono
+    };
+    this.clientesService.editarCliente(this.clienteSeleccionado.id, cambios, this.cookieService.get('token')).subscribe({
+      next: () => this.getClientes(),
+      error: err => console.error(err)
+    });
+    this.cerrarModal();
   }
 
   eliminarCliente(): void {
-    if (!this.clienteAEliminar) return
-    this.clientesService.eliminarCliente(this.clienteAEliminar.id,this.cookieService.get('token'))
-      .subscribe({ next: ()=>this.getClientes(), error: err=>console.error(err) })
-    this.cerrarModal()
+    if (!this.clienteSeleccionado) return;
+    this.clientesService.eliminarCliente(this.clienteSeleccionado.id, this.cookieService.get('token')).subscribe({
+      next: () => this.getClientes(),
+      error: err => console.error(err)
+    });
+    this.cerrarModal();
   }
 }

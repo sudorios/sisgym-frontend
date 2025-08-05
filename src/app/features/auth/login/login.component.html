@@ -7,6 +7,7 @@
         <h4 class="fw-bold mb-3" style="font-family: 'Lato', sans-serif">
           Iniciar Sesión
         </h4>
+
         <form>
           <div class="mb-3">
             <input
@@ -49,20 +50,23 @@
             </button>
           </div>
 
-          <div *ngIf="alertaVisible" class="mt-3">
-            <div class="alert alert-danger py-2 mb-2 text-center">
-              Usuario inválido
+          @if (alertaVisible) {
+            <div class="mt-3">
+              <div class="alert alert-danger py-2 mb-2 text-center">
+                Usuario inválido
+              </div>
+              <div class="progress" style="height: 5px">
+                <div
+                  class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
+                  role="progressbar"
+                  [style.width.%]="progressValue"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                ></div>
+              </div>
             </div>
-            <div class="progress" style="height: 5px">
-              <div
-                class="progress-bar progress-bar-striped progress-bar-animated bg-warning"
-                role="progressbar"
-                [style.width.%]="progressValue"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              ></div>
-            </div>
-          </div>
+          }
+
         </form>
       </div>
     </div>
